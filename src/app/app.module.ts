@@ -11,16 +11,18 @@ import {HttpClientModule} from "@angular/common/http";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
-import { SecureInnerPagesGuard } from './shared/secure-inner-pages.guard';
+import { SecureInnerPagesGuard } from './shared/auth/secure-inner-pages.guard';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import {AuthService} from "./shared/auth.service";
-import {AuthGuard} from "./shared/auth.guard";
+import {AuthService} from "./shared/auth/auth.service";
+import {AuthGuard} from "./shared/auth/auth.guard";
+import {UsersService} from "./shared/users.service";
+
 @NgModule({
   declarations: [
     AppComponent,
     SignInComponent,
-    UserProfileComponent
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,7 @@ import {AuthGuard} from "./shared/auth.guard";
     AngularFireDatabaseModule,
     HttpClientModule,
   ],
-  providers: [AuthService, AuthGuard, SecureInnerPagesGuard],
+  providers: [AuthService, AuthGuard, SecureInnerPagesGuard, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
