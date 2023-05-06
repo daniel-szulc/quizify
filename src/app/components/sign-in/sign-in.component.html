@@ -1,23 +1,47 @@
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" routerLink="/user-profile">
-        <i class="fas fa-user"></i>
-        User Profile
-      </a>
-    </li>
-  </ul>
-</nav>
-<div class="displayTable">
-  <div class="displayTableCell">
-    <div class="authBlock">
-      <h3>Sign in</h3>
-      <div class="formGroup">
-        <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-          <i class="fab fa-google-plus-g"></i>
-          Continue with Google
-        </button>
+<div class="container dark-background">
+  <mat-card>
+    <mat-card-title>{{isRegister ? "Create an account" : "Welcome back!"}}</mat-card-title>
+    <mat-card-content>
+      <i class="fa-solid fa-eye"></i>
+      <form>
+        <mat-form-field *ngIf="isRegister" appearance="fill" hideRequiredMarker >
+          <mat-label>Enter your username</mat-label>
+          <input matInput [formControl]="username" required>
+          <mat-error *ngIf="username.invalid">{{getErrorMessage(username)}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" hideRequiredMarker >
+          <mat-label >Enter your email</mat-label>
+          <input matInput  placeholder="pat@example.com" [formControl]="email" required>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage(email)}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" hideRequiredMarker >
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <fa-icon [icon]="hidePassword ? faEye : faEyeSlash"></fa-icon>
+          </button>
+          <mat-error *ngIf="password.invalid">
+            {{getErrorMessage(password)}}
+          </mat-error>
+        </mat-form-field>
+        <button mat-flat-button class="submit-btn" (click)="submitForm()" color="primary">{{isRegister ? "Register" : "Login"}}</button>
+      </form>
+      <div class="items-right">
+      <a *ngIf="!isRegister" class="text-link text-align-right" href="#" (click)="forgotPassword(); $event.preventDefault()">Forgot password?</a>
       </div>
-    </div>
-  </div>
+      <div class="line-wrapper">
+        <hr>
+        <span class="or-text">or</span>
+        <hr>
+      </div>
+      <button mat-stroked-button type="button" class="login-with-google-btn" (click)="authService.GoogleAuth()">
+        <p class="btn-text"> <i class="google-icon-wrapper"></i>Sign in with Google</p>
+      </button>
+      <p *ngIf="!isRegister">Don't you have an account? <a class="text-link" href="#" (click)="isRegister=true; $event.preventDefault()">Sign Up</a></p>
+      <p *ngIf="isRegister">Already have an account? <a class="text-link" href="#" (click)="isRegister=false; $event.preventDefault()">Sign In</a></p>
+
+    </mat-card-content>
+  </mat-card>
 </div>
+
+

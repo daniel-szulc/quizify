@@ -17,12 +17,19 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import {AuthService} from "./shared/auth/auth.service";
 import {AuthGuard} from "./shared/auth/auth.guard";
 import {UsersService} from "./shared/users.service";
-
+import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import {MaterialModule} from "./material.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
     SignInComponent,
     UserProfileComponent,
+    HomeComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,8 +41,17 @@ import {UsersService} from "./shared/users.service";
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     HttpClientModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ],
-  providers: [AuthService, AuthGuard, SecureInnerPagesGuard, UsersService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    SecureInnerPagesGuard,
+    UsersService,
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

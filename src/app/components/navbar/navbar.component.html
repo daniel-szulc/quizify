@@ -1,0 +1,15 @@
+<mat-toolbar class="mat-elevation-z1" color="primary">
+  <span class="example-fill-remaining-space">Quizify</span>
+  <button mat-button (click)="onSignIn()">
+    <fa-icon [icon]="faPlus"></fa-icon>
+    Create quiz
+  </button>
+  <button mat-button *ngIf="!isLoggedIn && !isSignInPage" (click)="onSignIn()">
+    <fa-icon [icon]="faUser"></fa-icon>
+    Sign In
+  </button>
+  <button mat-button *ngIf="isLoggedIn" (click)="onSignOut()">
+    <fa-icon [icon]="faRightFromBracket"></fa-icon>
+    Sign Out
+  </button>
+</mat-toolbar>
