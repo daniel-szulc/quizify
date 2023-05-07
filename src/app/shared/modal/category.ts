@@ -1,7 +1,7 @@
-enum Category {
-  Sport = 'Sport',
-  Music = 'Music',
-  Movie = 'Movie',
-  Book = 'Book',
-  Science = 'Science'
+export class CategoryModal {
+  constructor(
+    public name: string,
+    public quizzes: string[],
+    public icon: string,
+  ){}
 }

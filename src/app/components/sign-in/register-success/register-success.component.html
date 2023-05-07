@@ -1,0 +1,18 @@
+<div class="container dark-background">
+  <mat-card>
+    <a class="logo-wrapper" href="/">
+      <img class="logo"  height="70"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
+    </a>
+    <mat-card-title>{{"Registration was successful"}}</mat-card-title>
+    <mat-card-content>
+
+      <div>
+      <p>You can now log in to your account and start creating and solving quizzes.</p>
+      <p>Please check your email for a confirmation message.</p>
+      </div>
+      <button mat-flat-button class="submit-btn" (click)="this.router.navigate(['/'])" color="primary">Back to Home</button>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+

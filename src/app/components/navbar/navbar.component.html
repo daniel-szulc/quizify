@@ -1,5 +1,7 @@
 <mat-toolbar class="mat-elevation-z1" color="primary">
-  <span class="example-fill-remaining-space">Quizify</span>
+  <a class="fill-remaining-space" href="/">
+    <img class="nav-logo"  height="40"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
+  </a>
   <button mat-button (click)="onSignIn()">
     <fa-icon [icon]="faPlus"></fa-icon>
     Create quiz
@@ -8,8 +10,29 @@
     <fa-icon [icon]="faUser"></fa-icon>
     Sign In
   </button>
-  <button mat-button *ngIf="isLoggedIn" (click)="onSignOut()">
-    <fa-icon [icon]="faRightFromBracket"></fa-icon>
-    Sign Out
+
+  <mat-menu #userMenu="matMenu" xPosition="before">
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="this.router.navigate(['account'])">
+        <fa-icon [icon]="faUser"></fa-icon>
+        My profile
+      </button>
+      <button mat-menu-item (click)="onSignOut()">
+        <fa-icon [icon]="faRightFromBracket"></fa-icon>
+        Sign Out
+      </button>
+    </ng-template>
+  </mat-menu>
+  <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="userMenu">
+    <div matButtonIcon class="profile-image-wrapper">
+    <img
+      class="img-thumbnail rounded-circle"
+      src="{{
+                  getImage() ? getImage() : '/assets/avatars/avatar_00.jpg'
+                }}"
+      alt="{{ getUsername() }}"
+    />
+    </div>
+  {{ getUsername()}}
   </button>
 </mat-toolbar>

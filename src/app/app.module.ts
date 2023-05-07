@@ -23,6 +23,8 @@ import {MaterialModule} from "./material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RegisterSuccessComponent } from './components/sign-in/register-success/register-success.component';
+import { ForgotPasswordComponent } from './components/sign-in/forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UserProfileComponent,
     HomeComponent,
     NavbarComponent,
+    RegisterSuccessComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   providers: [
     AuthService,

@@ -1,9 +1,16 @@
 <div class="container dark-background">
   <mat-card>
+    <div>
+    <a class="logo-wrapper" href="/">
+      <img class="logo"  height="70"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
+    </a>
+    </div>
     <mat-card-title>{{isRegister ? "Create an account" : "Welcome back!"}}</mat-card-title>
     <mat-card-content>
-      <i class="fa-solid fa-eye"></i>
-      <form>
+      <form (submit)="submitForm(); $event.preventDefault()">
+        <mat-error *ngIf="mainErrorMessage.length > 0">
+         {{mainErrorMessage}}
+        </mat-error>
         <mat-form-field *ngIf="isRegister" appearance="fill" hideRequiredMarker >
           <mat-label>Enter your username</mat-label>
           <input matInput [formControl]="username" required>
@@ -17,17 +24,17 @@
         <mat-form-field appearance="fill" hideRequiredMarker >
           <mat-label>Enter your password</mat-label>
           <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <button type='button' mat-icon-button matSuffix (click)="hidePassword = !hidePassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <fa-icon [icon]="hidePassword ? faEye : faEyeSlash"></fa-icon>
           </button>
           <mat-error *ngIf="password.invalid">
             {{getErrorMessage(password)}}
           </mat-error>
         </mat-form-field>
-        <button mat-flat-button class="submit-btn" (click)="submitForm()" color="primary">{{isRegister ? "Register" : "Login"}}</button>
+        <button mat-flat-button class="submit-btn" type="submit" color="primary">{{isRegister ? "Register" : "Login"}}</button>
       </form>
       <div class="items-right">
-      <a *ngIf="!isRegister" class="text-link text-align-right" href="#" (click)="forgotPassword(); $event.preventDefault()">Forgot password?</a>
+      <a *ngIf="!isRegister" class="text-link text-align-right" href="#" (click)="router.navigate(['./sign-in/forgot']); $event.preventDefault()">Forgot password?</a>
       </div>
       <div class="line-wrapper">
         <hr>
