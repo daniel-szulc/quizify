@@ -1,0 +1,16 @@
+<div class="carousel-container">
+  <div class="carousel-items">
+    <mat-card *ngFor="let item of items" [style.width.px]="itemWidth"  [style.min-width.px]="itemWidth" [style.height.px]="itemHeight">
+      <mat-card-header>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image [src]="item.image" alt="{{ item.name }}">
+    </mat-card>
+  </div>
+  <button mat-icon-button class="carousel-button previous" (click)="move('previous')">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-icon-button class="carousel-button next" (click)="move('next')">
+   <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>

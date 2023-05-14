@@ -1,0 +1,76 @@
+@import "../../../assets/styles"
+
+ngb-carousel
+  border-radius: 25px
+  overflow: hidden
+  background-color: #4158D0
+  //background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)
+  //@include transition(background-images)
+
+  .background-layer
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    transition: opacity 1s ease-in-out
+  .fade-in
+    opacity: 1
+
+  .image-wrapper
+    object-fit: cover
+    width: 100%
+    height: 400px
+    max-height: 500px
+    @media #{$xl-layout}
+      height: 350px
+    @media #{$lg-layout}
+      height: 340px
+    @media #{$md-layout}
+      height: 330px
+    @media #{$sm-layout}
+      height: 300px
+
+
+    img
+      width: 100%
+      height: 100%
+
+      object-fit: contain
+      object-position: right bottom
+      overflow: hidden
+  .iconWrapper
+    right: -50px
+    top: -40%
+    height: 180%
+    position: absolute
+    transform: rotate(5deg)
+    overflow: hidden
+    i-bs
+      height: 100%
+      overflow: hidden
+      color: rgba(255, 255, 255, 0.1)
+
+  .carousel-caption
+    padding: 20px
+    margin-bottom: 15px
+    left: 10%
+    text-align: left
+    font-size: 25px
+    h3
+      font-size: 45px
+      @media #{$sm-layout}
+        font-size: 30px
+    p
+      font-size: 20px
+      @media #{$sm-layout}
+        font-size: 16px
+    button
+      font-size: 25px
+      padding-block: 30px
+      padding-inline: 25px
+      border-radius: 10px
+      font-weight: 500
+      @media #{$sm-layout}
+        font-size: 20px
+        padding-block: 25px

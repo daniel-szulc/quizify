@@ -1,0 +1,76 @@
+@import "../../../assets/styles"
+
+.background-icon
+  position: absolute
+  top: -15%
+  right: -10%
+  //width: auto
+  //height: auto
+  font-size: 100px
+  color: $primary
+
+.carousel-items
+  mat-card
+    overflow: hidden
+    background-color: $darkCommon
+    padding: 10px
+    text-align: center
+    justify-content: center
+    align-items: center
+    mat-card-header
+      padding: 0
+      mat-card-title-group
+        justify-content: center
+        align-items: center
+        mat-card-title
+          font-size: 20px
+          color: $primary-dark
+          font-weight: 700
+        mat-card-subtitle
+          color: $primary
+          font-size: 14px
+
+    .iconFrame
+      background-color: white
+      margin-block: 10px
+      margin-inline: auto
+      border-radius: 20px
+      aspect-ratio: 1
+      text-align: center
+      justify-content: center
+      align-items: center
+      @include transition(background-color)
+      transform: scale(100%)
+      @include transition(transform)
+      .iconWrapper
+        height: 30px
+        width: 30px
+        margin: 13px
+        transform: rotate(0) scale(100%)
+        @include transition(transform)
+        background: transparent
+        fa-icon, i-bs
+          color: $primary
+          transform: rotate(45deg)
+    &:hover
+      background-color: $accent-light
+
+      .iconFrame
+        transform: scale(110%)
+        background-color: $accent-lighter
+        @include transition(background-color)
+        .iconWrapper
+
+          transform: rotate(10deg) scale(110%)
+          fa-icon, i-bs
+            color: white
+            @include transition(color)
+      mat-card-header
+        mat-card-title-group
+          mat-card-title, mat-card-subtitle
+            color: white
+            @include transition(color)
+          mat-card-subtitle
+            color: $accent-lighter
+
+
