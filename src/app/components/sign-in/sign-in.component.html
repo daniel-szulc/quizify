@@ -14,16 +14,19 @@
         <mat-form-field *ngIf="isRegister" appearance="fill" hideRequiredMarker >
           <mat-label>Enter your username</mat-label>
           <input matInput [formControl]="username" required>
+          <i-bs matPrefix  class="formPrefix" name="person" height="20px" width="20px"></i-bs>
           <mat-error *ngIf="username.invalid">{{getErrorMessage(username)}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" hideRequiredMarker >
           <mat-label >Enter your email</mat-label>
           <input matInput  placeholder="pat@example.com" [formControl]="email" required>
+          <i-bs matPrefix  class="formPrefix" name="envelope" height="20px" width="20px"></i-bs>
           <mat-error *ngIf="email.invalid">{{getErrorMessage(email)}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" hideRequiredMarker >
           <mat-label>Enter your password</mat-label>
           <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
+          <i-bs matPrefix  class="formPrefix" name="lock" height="20px" width="20px"></i-bs>
           <button type='button' mat-icon-button matSuffix (click)="hidePassword = !hidePassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <fa-icon [icon]="hidePassword ? faEye : faEyeSlash"></fa-icon>
           </button>
@@ -44,6 +47,7 @@
       <button mat-stroked-button type="button" class="login-with-google-btn" (click)="authService.GoogleAuth()">
         <p class="btn-text"> <i class="google-icon-wrapper"></i>Sign in with Google</p>
       </button>
+      <div style="padding: 5px"></div>
       <p *ngIf="!isRegister">Don't you have an account? <a class="text-link" href="#" (click)="isRegister=true; $event.preventDefault()">Sign Up</a></p>
       <p *ngIf="isRegister">Already have an account? <a class="text-link" href="#" (click)="isRegister=false; $event.preventDefault()">Sign In</a></p>
 

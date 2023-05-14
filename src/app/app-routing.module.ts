@@ -7,6 +7,9 @@ import {SignInComponent} from "./components/sign-in/sign-in.component";
 import {HomeComponent} from "./components/home/home.component";
 import {RegisterSuccessComponent} from "./components/sign-in/register-success/register-success.component";
 import {ForgotPasswordComponent} from "./components/sign-in/forgot-password/forgot-password.component";
+import {QuizComponent} from "./components/quiz/quiz.component";
+import {ResultComponent} from "./components/result/result.component";
+import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-creator-component.component";
 
 const routes: Routes = [
   {
@@ -32,7 +35,19 @@ const routes: Routes = [
     path: 'sign-in/register-complete',
     component: RegisterSuccessComponent
   },
-
+  {
+    path: 'quiz',
+    component: QuizComponent
+  },
+  {
+    path: 'result',
+    component: ResultComponent
+  },
+  {
+    path: 'create',
+    component: QuizCreatorComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

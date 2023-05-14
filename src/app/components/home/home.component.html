@@ -1,3 +1,11 @@
 <app-navbar></app-navbar>
-<div style="padding: 50px"></div>
-<p>home works!</p>
+<div class="home-container">
+<div style="padding: 60px"></div>
+
+  <app-carousel-slides [items]="promoQuizzes"></app-carousel-slides>
+
+  <div style="padding: 20px"></div>
+  <h3>Categories</h3>
+<app-carousel-category [items]="categories"></app-carousel-category>
+
+</div>

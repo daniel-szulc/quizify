@@ -3,10 +3,6 @@ import {AuthService} from "../../shared/auth/auth.service";
 import {NavigationEnd, Router} from "@angular/router";
 import {filter, map} from 'rxjs/operators';
 import { faPlus, faUser, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {MatLegacyButton} from "@angular/material/legacy-button";
-import {Observable} from "rxjs";
-import {UserModal} from "../../shared/modal/user";
 
 @Component({
   selector: 'app-navbar',
@@ -41,10 +37,6 @@ export class NavbarComponent implements OnInit{
     ).subscribe((url: string) => {
       this.isSignInPage = url == '/sign-in';
     });
-  }
-
-  onSignIn() {
-    this.router.navigate(['sign-in']);
   }
 
   onSignOut() {

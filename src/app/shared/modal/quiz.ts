@@ -1,12 +1,23 @@
-import {QuestionModal} from "./question";
+/*import {QuestionModal} from "./question";
+import {CategoryModal} from "./category";
 
 export class QuizModal {
   constructor(
-    public id: string,
     public questions: QuestionModal[],
-    public imageName: string,
-    public category: Category,
+    public category: CategoryModal,
     public authorId: string
   ){}
 
+}*/
+
+
+import {QuestionModal} from "./question";
+import {CategoryModal} from "./category";
+
+export interface QuizModal {
+     name: string;
+     description?: string;
+     questions: QuestionModal[];
+     category: CategoryModal;
+     authorId: string;
 }

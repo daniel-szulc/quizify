@@ -25,16 +25,31 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterSuccessComponent } from './components/sign-in/register-success/register-success.component';
 import { ForgotPasswordComponent } from './components/sign-in/forgot-password/forgot-password.component';
+import {QuizComponent} from "./components/quiz/quiz.component";
+import {ResultComponent} from "./components/result/result.component";
+import {CarouselComponent} from "./components/carousel/carousel.component";
+import {CarouselCategoryComponent} from "./components/carousel-category/carousel-category.component";
+import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
+import {CarouselSlidesComponent} from "./components/carousel-slides/carousel-slides.component";
+import {NgbCarousel, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-creator-component.component";
+
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    SignInComponent,
-    UserProfileComponent,
-    HomeComponent,
-    NavbarComponent,
-    RegisterSuccessComponent,
-    ForgotPasswordComponent,
-  ],
+    declarations: [
+        AppComponent,
+        SignInComponent,
+        UserProfileComponent,
+        HomeComponent,
+        NavbarComponent,
+        RegisterSuccessComponent,
+        ForgotPasswordComponent,
+        QuizComponent,
+        ResultComponent,
+        CarouselComponent,
+        CarouselCategoryComponent,
+         QuizCreatorComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,13 +63,18 @@ import { ForgotPasswordComponent } from './components/sign-in/forgot-password/fo
     MaterialModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    NgxBootstrapIconsModule.pick(allIcons),
+    NgbCarousel,
+    CarouselSlidesComponent,
+    NgbModule
   ],
   providers: [
     AuthService,
     AuthGuard,
     SecureInnerPagesGuard,
     UsersService,
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+
   ],
   bootstrap: [AppComponent]
 })

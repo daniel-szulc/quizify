@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/auth/auth.service';
 import {FormControl, Validators} from '@angular/forms';
-import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import {faUser, faEnvelope, faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import {faLock} from "@fortawesome/free-solid-svg-icons";
+
 import {Router} from "@angular/router";
 import {errorMessages} from "../../shared/utils/errors.config";
 import { validateEmail, validatePassword, validateUsername } from './validation';
@@ -16,6 +18,11 @@ export class SignInComponent implements OnInit {
   ngOnInit() {}
   faEye = faEye
   faEyeSlash = faEyeSlash
+  faEnvelope=faEnvelope
+  faUser = faUser
+
+  faLock = faLock
+
   email = new FormControl('', [Validators.required, Validators.email]);
   password =  new FormControl('', [Validators.required, Validators.minLength(8)]);
   username =  new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]);

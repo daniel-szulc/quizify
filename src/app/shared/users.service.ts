@@ -81,7 +81,6 @@ export class UsersService {
 
 
   sendUsersData(user: UserModal) {
-    console.log("SEND DATA!!!")
     const userDocRef = this.fireStore.collection('users').doc(user.uid);
 
     const data = {

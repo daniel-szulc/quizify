@@ -2,11 +2,11 @@
   <a class="fill-remaining-space" href="/">
     <img class="nav-logo"  height="40"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
   </a>
-  <button mat-button (click)="onSignIn()">
+  <button mat-button (click)="this.router.navigate(['create'])">
     <fa-icon [icon]="faPlus"></fa-icon>
     Create quiz
   </button>
-  <button mat-button *ngIf="!isLoggedIn && !isSignInPage" (click)="onSignIn()">
+  <button mat-button *ngIf="!isLoggedIn && !isSignInPage" (click)="this.router.navigate(['sign-in'])">
     <fa-icon [icon]="faUser"></fa-icon>
     Sign In
   </button>
