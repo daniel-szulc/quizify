@@ -1,0 +1,97 @@
+.container
+  display: block
+  justify-content: center
+  align-items: center
+  height: 100%
+  width: 100%
+  overflow-y: auto
+  margin: 0
+  padding-top: 50px
+  max-width: unset
+  form
+    button
+      width: auto
+  mat-card
+    margin-block: 50px
+    margin-inline: 20px
+    text-align: center
+    mat-card-title
+      font-size: 30px
+      font-weight: 500
+    mat-card-content
+      text-align: left
+.app-quiz-creator
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  label
+    display: flex
+    flex-direction: column
+    margin-bottom: 1rem
+
+    input, select
+      margin-top: 0.5rem
+
+  button
+    margin-top: 1rem
+
+
+
+.quiz-form
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  &__field
+    width: 100%
+
+
+.questions
+  padding: 25px
+  .question-container
+    border: 1px solid grey
+    border-radius: 15px
+    padding: 15px
+    margin-bottom: 25px
+    gap: 0
+    .question-nav
+      display: flex
+      align-items: center
+      justify-content: space-between
+      margin-bottom: 15px
+      h6
+        margin-block: auto
+      button
+        width:  45px
+        height: 45px
+        padding: 0
+        padding-inline: 0
+        aspect-ratio: 1
+        border-radius: 15px
+        box-shadow: none
+
+
+.options
+  text-align: center
+  .option
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: 10px
+
+    .quiz-form__field
+      flex: 1
+      margin-bottom: -1.25em
+
+
+    button
+      flex-shrink: 0
+
+.submit-wrapper
+  width: 100%
+  text-align: center
+  button
+    font-size: 20px
+    padding-block: 20px

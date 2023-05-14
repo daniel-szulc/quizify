@@ -33,6 +33,7 @@ import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import {CarouselSlidesComponent} from "./components/carousel-slides/carousel-slides.component";
 import {NgbCarousel, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-creator-component.component";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-cre
     NgxBootstrapIconsModule.pick(allIcons),
     NgbCarousel,
     CarouselSlidesComponent,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [
     AuthService,

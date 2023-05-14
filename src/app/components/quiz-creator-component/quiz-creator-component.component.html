@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+
+<div class="container dark-background">
+  <mat-card>
+    <mat-card-title style="margin-bottom: 20px">Create quiz!</mat-card-title>
+
+    <mat-card-content>
+<form [formGroup]="quizForm" (ngSubmit)="submitQuiz()">
+  <mat-form-field appearance="fill" class="quiz-form__field">
+    <mat-label>Quiz Name</mat-label>
+    <input matInput formControlName="name" required>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="quiz-form__field">
+    <mat-label>Quiz Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="quiz-form__field">
+    <mat-label>Quiz Category</mat-label>
+    <input type="text" matInput formControlName="category" [matAutocomplete]="auto" (keyup.enter)="checkCategory()" (blur)="checkCategory()"  required/>
+    <button mat-icon-button matSuffix *ngIf="quizForm.controls['category'].value" aria-label="Clear" (click)="quizForm.controls['category'].setValue('')">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete" (opened)="onOpen()" (closed)="onClose()">
+      <mat-option *ngFor="let category of filteredCategories | async" [value]="category" (onSelectionChange)="updateLastValid($event, category)">{{category}}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <h5>Questions</h5>
+
+  <div class="questions" formArrayName="questions">
+    <div class="question-container" *ngFor="let question of questions.controls; let questionIndex = index" [formGroupName]="questionIndex">
+
+      <div class="question-nav">
+      <h6>Question {{questionIndex + 1}}</h6>
+        <button  [disabled]="questions.controls.length<=1" mat-fab color="warn" type="button" (click)="removeQuestion(questionIndex)" matTooltip="Remove question">
+          <i-bs width="20" height="20" name="trash"></i-bs>
+        </button>
+      </div>
+      <mat-form-field appearance="fill" class="quiz-form__field">
+        <mat-label>Question</mat-label>
+        <input matInput formControlName="question" required>
+      </mat-form-field>
+
+      <mat-divider style="margin-bottom: 20px"></mat-divider>
+      <mat-radio-group formControlName="answer" >
+      <div class="options" formArrayName="options">
+
+
+          <div  *ngFor="let option of getOptionsArray(question).controls; let optionIndex = index">
+
+            <div class="option">
+              <mat-radio-button color="primary" [value]="optionIndex" ></mat-radio-button>
+            <mat-form-field appearance="fill" class="quiz-form__field">
+              <mat-label>Option {{optionIndex + 1}}</mat-label>
+              <input matInput [formControlName]="optionIndex" required>
+              <button [disabled]="getOptionsArray(question).length<=2"  mat-icon-button matSuffix  color="warn" type="button" (click)="removeOption(questionIndex, optionIndex)" matTooltip="Remove">
+        <i-bs  name="dash-circle"></i-bs>
+              </button>
+            </mat-form-field>
+
+            </div>
+          </div>
+
+        <button [disabled]="getOptionsArray(question).length>=8" mat-flat-button color="primary" type="button" (click)="addOption(questionIndex)">
+          <i-bs  name="plus-circle"></i-bs>
+          Add Option
+        </button>
+
+      </div>
+      </mat-radio-group>
+
+    </div>
+
+    <button [disabled]="questions.length>=20" mat-flat-button color="primary" type="button" (click)="addQuestion()">
+      <i-bs width="20" height="20" name="plus-circle"></i-bs>
+      Add Question
+    </button>
+  </div>
+
+  <div class="submit-wrapper">
+  <button mat-flat-button color="accent" type="submit">
+    <i-bs width="25" height="25" name="check2-circle"></i-bs>
+    Submit Quiz
+  </button>
+  </div>
+</form>
+    </mat-card-content>
+  </mat-card>
+</div>
