@@ -18,6 +18,6 @@ export interface QuizModal {
      name: string;
      description?: string;
      questions: QuestionModal[];
-     category: CategoryModal;
+     categoryId: CategoryModal;
      authorId: string;
 }

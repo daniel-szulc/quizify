@@ -1,0 +1,29 @@
+  <mat-card >
+    <mat-card-title style="margin-bottom: 20px">Quiz created successfully</mat-card-title>
+
+    <mat-card-content>
+
+      <mat-form-field appearance="fill" class="quiz-form__field">
+        <input matInput type="text" id="urlInput" [value]="getQuizUrl()" readonly />
+        <button type='button' matSuffix  mat-icon-button (click)="shareQuiz()" >
+          <i *ngIf="!copied" class="bi bi-clipboard"></i>
+          <i *ngIf="copied" class="bi bi-clipboard-check-fill"></i>
+        </button>
+
+      </mat-form-field>
+
+      <button mat-flat-button color="primary">
+        Go to quiz
+      </button>
+
+      <button mat-stroked-button (click)="shareQuiz()" >
+        <i class="bi bi-share"></i>
+        Share quiz
+      </button>
+
+      <button mat-stroked-button >
+        Back to Home
+      </button>
+    </mat-card-content>
+  </mat-card>
+

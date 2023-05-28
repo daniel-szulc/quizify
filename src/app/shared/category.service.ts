@@ -8,6 +8,7 @@ import {CategoryModal} from "./modal/category";
 import {QuizModal} from "./modal/quiz";
 
 import {QuestionModal} from "./modal/question";
+import {of} from "rxjs";
 
 
 @Injectable({
@@ -16,6 +17,8 @@ import {QuestionModal} from "./modal/question";
 
 export class CategoryService {
 
+  categories: CategoryModal[] = [];
+
   constructor(private http: HttpClient, private fireStore: AngularFirestore, public router: Router) {
 
   }
@@ -23,13 +26,16 @@ export class CategoryService {
 
   getCategories(){
 
-    // return this.fireStore.collection('categories').get().pipe(map(res => {
-    //   // @ts-ignore
-    //   console.log(res.data());
-    //   // @ts-ignore
-    //   return (res.exists && res.data()) ? res.data() as string[] : null;
-    // }));
+    if (this.categories.length>0) {
+      return of(this.categories);
+    } else {
+      return this.fireStore.collection('categories').get().pipe(
+        map(res => {
+          this.categories = res.docs.map(doc => doc.data()) as CategoryModal[];
+          return this.categories;
+        })
+      );
+    }
 
-     return ['Sport', 'Music', 'Chemistry', 'General', 'Technology']
   }
 }

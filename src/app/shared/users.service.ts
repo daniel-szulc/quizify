@@ -4,10 +4,8 @@ import 'firebase/auth';
 import {AuthService} from "./auth/auth.service";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import firebase from "firebase/compat";
-import User = firebase.User;
-import {user} from "@angular/fire/auth";
 import {UserModal} from "./modal/user";
-import {from, mergeMap, Observable, of, switchMap, tap} from "rxjs";
+import {first, from, mergeMap, Observable, of, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -88,7 +86,7 @@ export class UsersService {
       "image": user.image,
       "quizzes": user.quizzes
     }
-    userDocRef.get().subscribe(docSnapshot => {
+    userDocRef.get().pipe(first()).subscribe(docSnapshot => {
       if (docSnapshot.exists) {
         userDocRef.update(data);
       } else {
@@ -105,7 +103,7 @@ export class UsersService {
     const nameData=  {"uid": user.uid}
 
 
-    userDocNamesRef.get().subscribe(docSnapshot => {
+    userDocNamesRef.get().pipe(first()).subscribe(docSnapshot => {
       if (docSnapshot.exists) {
         console.log("exists")
         userDocNamesRef.update(nameData);

@@ -8,6 +8,8 @@ import {CategoryModal} from "./modal/category";
 import {QuizModal} from "./modal/quiz";
 
 import {QuestionModal} from "./modal/question";
+import {AuthService} from "./auth/auth.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 @Injectable({
@@ -24,14 +26,22 @@ export class QuizService {
   qnProgress: number = 0;
   correctAnsCount: number = 0;
 
-  constructor(private http: HttpClient, private fireStore: AngularFirestore, public router: Router) {
+  constructor(private authService: AuthService, private http: HttpClient, private fireStore: AngularFirestore, public router: Router) {
 
   }
 
 
-  createQuiz(data: QuizModal){
-    this.fireStore.collection('quizzes').add(data).then(res =>{
-      console.log(res)
+  createQuiz(data: QuizModal) : Promise<string | undefined> {
+
+    if(this.authService.user)
+      data = {...data, authorId: this.authService.user.uid}
+    else
+      data = {...data, authorId: this.authService.userData.uid}
+
+   return this.fireStore.collection('quizzes').add(data).then(res =>{
+      return res.id
+    }, error =>{
+      return undefined;
     })
 
   }

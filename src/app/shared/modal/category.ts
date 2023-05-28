@@ -9,6 +9,7 @@
 import {PromoQuizModal} from "./promoQuiz";
 
 export interface CategoryModal {
+    id: string;
     name: string;
     quizzes: string[];
     icon: string;

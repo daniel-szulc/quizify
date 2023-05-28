@@ -8,7 +8,7 @@ import {
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {QuizCreatorComponent} from "../../components/quiz-creator-component/quiz-creator-component.component";
+import {QuizCreatorComponent} from "../../components/quiz-creator/quiz-creator.component";
 import {SignInComponent} from "../../components/sign-in/sign-in.component";
 @Injectable({
   providedIn: 'root',

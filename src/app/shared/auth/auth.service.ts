@@ -8,38 +8,39 @@ import FirebaseError = firebase.FirebaseError;
 import {UserModal} from "../modal/user";
 import User = firebase.User;
 import {createUserWithEmailAndPassword} from "@angular/fire/auth";
-import {map} from "rxjs/operators";
-import {lastValueFrom} from "rxjs";
+import {map, takeUntil} from "rxjs/operators";
+import {lastValueFrom, Subject} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   userData: any;
   user: UserModal | undefined;
+  private destroy$ = new Subject<void>();
   constructor(
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     private injector: Injector,
   ) {
-    this.afAuth.authState.subscribe((user) => {
+    this.afAuth.authState.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       if (user) {
         if(!this.user)
         {
           const usersService = this.injector.get(UsersService)
-          usersService.isUserExists(user.uid).subscribe(r =>
+          usersService.isUserExists(user.uid).pipe(takeUntil(this.destroy$)).subscribe(r =>
             {
               if(r)
               {
-               usersService.getUsername(user.uid).subscribe(username => {
-                 this.saveUser(username, user);
-               })
+                usersService.getUsername(user.uid).pipe(takeUntil(this.destroy$)).subscribe(username => {
+                  this.saveUser(username, user);
+                })
               }
               else
               {
-               usersService.generateUsername(user.email || "quizifyer").subscribe(username => {
+                usersService.generateUsername(user.email || "quizifyer").pipe(takeUntil(this.destroy$)).subscribe(username => {
                   this.saveUser(username, user);
-               });
+                });
               }
             }
           )
@@ -48,12 +49,23 @@ export class AuthService {
         localStorage.setItem('user', 'null');
       }
     });
+
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null ? true : false;
   }
+
+
+
+
 
   saveUser(username: string, user: User){
     const currentUser = JSON.parse(localStorage.getItem('user')!);

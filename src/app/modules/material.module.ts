@@ -18,6 +18,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatGridListModule} from "@angular/material/grid-list";
 @NgModule({
   declarations: [],
   exports: [
@@ -38,7 +39,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatOptionModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

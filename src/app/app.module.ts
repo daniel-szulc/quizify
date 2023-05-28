@@ -19,7 +19,7 @@ import {AuthGuard} from "./shared/auth/auth.guard";
 import {UsersService} from "./shared/users.service";
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import {MaterialModule} from "./material.module";
+import {MaterialModule} from "./modules/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -32,8 +32,9 @@ import {CarouselCategoryComponent} from "./components/carousel-category/carousel
 import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import {CarouselSlidesComponent} from "./components/carousel-slides/carousel-slides.component";
 import {NgbCarousel, NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-creator-component.component";
+import {QuizCreatorComponent} from "./components/quiz-creator/quiz-creator.component";
 import {FormsModule} from "@angular/forms";
+import { CreateSuccessComponent } from './components/quiz-creator/create-success/create-success.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {FormsModule} from "@angular/forms";
         ResultComponent,
         CarouselComponent,
         CarouselCategoryComponent,
-         QuizCreatorComponent
+         QuizCreatorComponent,
+         CreateSuccessComponent
     ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import {AuthService} from "../../shared/auth/auth.service";
 import {NavigationEnd, Router} from "@angular/router";
 import {filter, map} from 'rxjs/operators';
 import { faPlus, faUser, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-navbar',
@@ -34,7 +35,7 @@ export class NavbarComponent implements OnInit{
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event: NavigationEnd) => event.url)
-    ).subscribe((url: string) => {
+    ).pipe(first()).subscribe((url: string) => {
       this.isSignInPage = url == '/sign-in';
     });
   }

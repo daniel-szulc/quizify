@@ -7,6 +7,7 @@ import {QuestionModal} from "../../shared/modal/question";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import { Location } from '@angular/common'
 import {QuizModal} from "../../shared/modal/quiz";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-quiz',
@@ -25,7 +26,7 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.queryParams
+    this.route.queryParams.pipe(first())
       .subscribe(params => {
           this.quizID = params['id'];
           this.getQuizData(this.quizID);
@@ -95,7 +96,7 @@ export class QuizComponent implements OnInit {
   //  this.quizService.sendData()
     this.isLoading = true;
 
-    this.quizService.getQuizData(quizID).subscribe(
+    this.quizService.getQuizData(quizID).pipe(first()).subscribe(
       res => {
 
         const quiz: QuizModal = res as QuizModal;

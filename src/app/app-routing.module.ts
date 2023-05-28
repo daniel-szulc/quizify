@@ -9,7 +9,7 @@ import {RegisterSuccessComponent} from "./components/sign-in/register-success/re
 import {ForgotPasswordComponent} from "./components/sign-in/forgot-password/forgot-password.component";
 import {QuizComponent} from "./components/quiz/quiz.component";
 import {ResultComponent} from "./components/result/result.component";
-import {QuizCreatorComponent} from "./components/quiz-creator-component/quiz-creator-component.component";
+import {QuizCreatorComponent} from "./components/quiz-creator/quiz-creator.component";
 
 const routes: Routes = [
   {
