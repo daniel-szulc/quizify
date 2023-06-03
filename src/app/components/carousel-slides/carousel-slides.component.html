@@ -9,7 +9,7 @@
     <div class="carousel-caption">
       <h3>{{item.title}}</h3>
       <p>{{item.subtitle}}</p>
-      <button type='button' mat-flat-button color="primary"> {{item.buttonText ? item.buttonText : "Take the quiz"}} </button>
+      <button type='button' mat-flat-button color="primary"  (click)="this.router.navigate(['quiz', item.quizId ])"> {{item.buttonText ? item.buttonText : "Take the quiz"}} </button>
     </div>
   </ng-template>
 </ngb-carousel>

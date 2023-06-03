@@ -11,6 +11,123 @@ import {QuestionModal} from "./modal/question";
 import {AuthService} from "./auth/auth.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
+const categories = [
+  {
+    "name": "Movie and TV",
+    "id": "movie-tv",
+    "icon": "film",
+    promoQuiz: {
+      title: "The Marvel Universe",
+      subtitle: "Are you a real fan of superheroes? Test your knowledge of the Marvel Cinematic Universe!",
+      buttonText: "Accept the challenge!",
+      quizId: "",
+      background: "radial-gradient( circle farthest-corner at 10% 20%,  rgba(255,0,49,1) 0%, rgba(255,41,142,1) 92% )"
+    }
+  },
+  {
+    "name": "Geography",
+    "id": "geography",
+    "icon": "globe-americas",
+    promoQuiz: {
+      title: "Globe Trotter",
+      subtitle: "How well do you know our world? Put your geography skills to the test!",
+      buttonText: "Start your journey!",
+      quizId: "",
+      background: "linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%)"
+    }
+  },
+  {
+    name: "History",
+    id: "history",
+    icon: 'hourglass-bottom',
+    promoQuiz: {
+      title: "Through the Ages",
+      subtitle: "Fancy yourself a historian? Assess your knowledge of world history!",
+      buttonText: "Step into the past!",
+      quizId: "",
+      background: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)"
+    }
+  },
+  {
+    name: "Book",
+    id: "book",
+    icon: 'book'
+  },
+  {
+    name: "History",
+    id: "history",
+    icon: 'hourglass-bottom',
+    promoQuiz: {
+      title: "Through the Ages",
+      subtitle: "Fancy yourself a historian? Assess your knowledge of world history!",
+      buttonText: "Step into the past!",
+      quizId: "",
+      background: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)"
+    }
+  },
+  {
+    name: "Science",
+    id: "science",
+    icon: "flask"
+  },
+  {
+    name: "Art",
+    id: "art",
+    icon: "palette"
+  },
+  {
+    name: "Technology",
+    id: "technology",
+    icon: "laptop"
+  },
+  {
+    "name": "Geography",
+    "id": "geography",
+    "icon": "globe-americas",
+    promoQuiz: {
+      title: "Globe Trotter",
+      subtitle: "How well do you know our world? Put your geography skills to the test!",
+      buttonText: "Start your journey!",
+      quizId: "",
+      background: "linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%)"
+    }
+  },
+  {
+    "name": "Sport",
+    "id": "sport",
+    "icon": "futbol"
+  },
+  {
+    "name": "Game",
+    "id": "game",
+    "icon": "joystick"
+  },
+  {
+    "name": "Animal",
+    "id": "animal",
+    "icon": "paw"
+  },
+  {
+    "name": "Motorsports",
+    "id": "motorsports",
+    "icon": "car"
+  },
+  {
+    "name": "Celebrities",
+    "id": "celebrities",
+    "icon": "star"
+  },
+  {
+    "name": "Anatomy",
+    "id": "anatomy",
+    "icon": "brain"
+  },
+
+];
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +144,33 @@ export class QuizService {
   correctAnsCount: number = 0;
 
   constructor(private authService: AuthService, private http: HttpClient, private fireStore: AngularFirestore, public router: Router) {
+   //this.createCategories()
 
   }
 
+
+  async addQuizToCategory(categoryId: string, quizId: string): Promise<void> {
+    const categoryRef = this.fireStore.collection('categories').doc(categoryId).ref;
+
+    try {
+      // Get the current 'quizzes' array from the category document
+      const doc = await categoryRef.get();
+
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        // If the 'quizzes' array exists, add the new quizId, otherwise create a new array with quizId
+        // @ts-ignore
+        const quizzes = doc.data()?.quizzes ?? [];
+        quizzes.push(quizId);
+
+        // Update the 'quizzes' array in the category document
+        return categoryRef.update({ quizzes });
+      }
+    } catch (error) {
+      console.log('Error getting document:', error);
+    }
+  }
 
   createQuiz(data: QuizModal) : Promise<string | undefined> {
 
@@ -38,8 +179,18 @@ export class QuizService {
     else
       data = {...data, authorId: this.authService.userData.uid}
 
+    console.log(data)
    return this.fireStore.collection('quizzes').add(data).then(res =>{
-      return res.id
+     if(res.id)
+     {
+       console.log(res.id)
+       this.addQuizToCategory(data.categoryId, res.id);
+       // this.fireStore.collection('categories').doc(data.categoryId).update({
+       //   quizzes: firebase.firestore.FieldValue.arrayUnion(res.id)
+       // });
+       return res.id
+     }
+     return undefined;
     }, error =>{
       return undefined;
     })

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray, FormControl, AbstractControl} from '@angular/forms';
-
-
 import {QuizModal} from "../../shared/modal/quiz";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {CategoryService} from "../../shared/category.service";
 import {QuizService} from "../../shared/quiz.service";
-import {Observable, startWith} from "rxjs";
+import {Observable, startWith, take} from "rxjs";
 import {map} from "rxjs/operators";
 import {CategoryModal} from "../../shared/modal/category";
 import {QuestionModal} from "../../shared/modal/question";
@@ -33,12 +30,12 @@ export class QuizCreatorComponent implements OnInit {
   constructor(private  router: Router, private fb: FormBuilder, private categoryService: CategoryService, private quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe((categoryModals: CategoryModal[]) => {
+    this.categoryService.getCategories().pipe(take(1)).subscribe((categoryModals: CategoryModal[]) => {
 
       this.isLoading=true;
 
       if (!categoryModals) return;
-      categoryModals.forEach(categoryModal => this.categories.set(categoryModal.id, categoryModal.name));
+         categoryModals.forEach(categoryModal => this.categories.set(categoryModal.id, categoryModal.name));
 
       this.lastValidCategory = categoryModals[0].id;
 
@@ -59,13 +56,6 @@ export class QuizCreatorComponent implements OnInit {
         );
 
       this.isLoading=false;
-
-
-      ///TEST/////
-
-      // this.quizId = "XD"
-
-      ///////////
     });
   }
 
@@ -191,6 +181,7 @@ export class QuizCreatorComponent implements OnInit {
       const quizData: QuizModal =  this.mapFormToQuizModal();
       console.log(quizData)
        this.quizService.createQuiz(quizData).then(res =>{
+         console.log(res)
          this.isLoading = false;
          this.quizId = res;
          }

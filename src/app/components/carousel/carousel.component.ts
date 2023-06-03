@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {CarouselItem} from "../../shared/utils/carousel-item.interface";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -16,7 +15,7 @@ export class CarouselComponent implements OnInit {
 
   private scrollAmount = 0;
 
-  constructor() {}
+  constructor(public router: Router) {}
 
   ngOnInit(): void {
     this.scrollAmount = this.itemWidth + 20; // +20 for the margin

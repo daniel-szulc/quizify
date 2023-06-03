@@ -5,6 +5,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {image, NgxBootstrapIconsModule} from "ngx-bootstrap-icons";
 import {CarouselItem} from "../../shared/utils/carousel-item.interface";
 import {PromoQuizModal} from "../../shared/modal/promoQuiz";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-carousel-slides',
@@ -19,7 +20,7 @@ export class CarouselSlidesComponent {
   @Input() items: PromoQuizModal[] = [];
   images = [700, 533, 807, 124].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
-  constructor(config: NgbCarouselConfig) {
+  constructor(config: NgbCarouselConfig, public router: Router) {
     this.images.push("./assets/slides/chemistry.png")
     // customize default values of carousels used by this component tree
     config.interval = 10000;

@@ -1,6 +1,7 @@
 <div class="carousel-container">
   <div class="carousel-items">
-    <mat-card *ngFor="let item of items" [style.width.px]="itemWidth"  [style.min-width.px]="itemWidth" [style.height.px]="itemHeight">
+    <mat-card  *ngFor="let item of items" [style.width.px]="itemWidth"  [style.min-width.px]="itemWidth" [style.height.px]="itemHeight">
+      <mat-card-content class="carousel-item" (click)="navigate(item.id)" >
      <div class="iconFrame">
       <div class="iconWrapper">
         <i-bs [width]="iconSize" [height]="iconSize" *ngIf="!item.icon && item.bootstrapIconName"  [name]="item.bootstrapIconName"></i-bs>
@@ -9,10 +10,11 @@
       <mat-card-header>
         <mat-card-title-group>
         <mat-card-title>{{ item.name }}</mat-card-title>
-        <mat-card-subtitle>12 quizzes</mat-card-subtitle>
+        <mat-card-subtitle>{{item.count}} {{ item.count == 1 ? "quiz" : "quizzes" }} </mat-card-subtitle>
+
         </mat-card-title-group>
       </mat-card-header>
-
+        </mat-card-content>
     </mat-card>
   </div>
   <button mat-icon-button class="carousel-button previous" (click)="move('previous')">

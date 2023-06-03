@@ -7,4 +7,6 @@ export interface CarouselItem {
   icon?: IconProp;
   iconName?: string
   bootstrapIconName?: IconName
+  count?: number
+  id: string
 }

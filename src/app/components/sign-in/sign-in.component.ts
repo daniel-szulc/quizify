@@ -77,6 +77,7 @@ export class SignInComponent implements OnInit {
           else {
             // Login success
             this.router.navigate(["/"])
+
           }
         }
         else {

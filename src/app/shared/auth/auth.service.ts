@@ -32,8 +32,10 @@ export class AuthService {
             {
               if(r)
               {
-                usersService.getUsername(user.uid).pipe(takeUntil(this.destroy$)).subscribe(username => {
-                  this.saveUser(username, user);
+                usersService.getUserData(user.uid).pipe(takeUntil(this.destroy$)).subscribe(data => {
+              //  usersService.getUsername(user.uid).pipe(takeUntil(this.destroy$)).subscribe(username => {
+
+                  this.saveUser(data, user);
                 })
               }
               else
@@ -67,7 +69,9 @@ export class AuthService {
 
 
 
-  saveUser(username: string, user: User){
+  saveUser(userFireStore: any, user: User){
+    let username:string = userFireStore['username'];
+    const customImage = userFireStore['customImage'];
     const currentUser = JSON.parse(localStorage.getItem('user')!);
     this.userData = user.toJSON();
     if(currentUser)
@@ -76,22 +80,32 @@ export class AuthService {
       this.userData = {...this.userData, username: username };
     else if(currentUser)
       username = currentUser.username;
-    if(!this.userData.photoURL) {
+
+    if(customImage){
+      this.userData = {...this.userData, customImage: customImage};
+    }
+    else if(!this.userData.photoURL) {
       if(currentUser)
         if(currentUser?.photoURL)
           this.userData = {...this.userData, photoURL: currentUser.photoURL};
       else
         this.userData = {...this.userData, photoURL: this.getImage(this.userData)};
-
     }
     localStorage.setItem('user', JSON.stringify(this.userData));
     this.CreateUser(user, user.email || "", username)
   }
 
-  getImage(user: any){
-    console.log(user)
-    let photoURL = user["photoURL"];
-    console.log("PHOTO URL: " + photoURL)
+  getImage(user?: any){
+
+    if(!user)
+      user = this.userData;
+    let photoURL = user["customImage"]
+    if(photoURL){
+      return photoURL
+    }
+
+    photoURL = user["photoURL"];
+
     if(!photoURL)
     {
       if(this.user)

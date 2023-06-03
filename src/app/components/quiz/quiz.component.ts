@@ -26,12 +26,25 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.queryParams.pipe(first())
-      .subscribe(params => {
-          this.quizID = params['id'];
+
+
+      this.route.params.subscribe(params => {
+        this.quizID = params['id'];
+        if(this.quizID) {
           this.getQuizData(this.quizID);
+          return;
         }
-      );
+          this.route.queryParams.pipe(first())
+            .subscribe(params => {
+                this.quizID = params['id'];
+                this.getQuizData(this.quizID);
+              }
+            );
+    }
+    );
+
+
+
     this.quizService.qnProgress = 0;
     this.quizService.seconds = 0;
 

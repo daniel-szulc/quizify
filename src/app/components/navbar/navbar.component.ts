@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit{
     return this.authService.user?.username;
   }
   getImage() {
-    return this.authService.user?.image;
+    return this.authService.getImage();
   }
 
 

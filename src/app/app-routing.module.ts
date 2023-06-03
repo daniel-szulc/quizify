@@ -40,6 +40,10 @@ const routes: Routes = [
     component: QuizComponent
   },
   {
+    path: 'quiz/:id',
+    component: QuizComponent
+  },
+  {
     path: 'result',
     component: ResultComponent
   },
@@ -48,6 +52,10 @@ const routes: Routes = [
     component: QuizCreatorComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'category/:id',
+    component: QuizComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

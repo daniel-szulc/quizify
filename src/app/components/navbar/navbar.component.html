@@ -1,7 +1,9 @@
 <mat-toolbar class="mat-elevation-z1" color="primary">
-  <a class="fill-remaining-space" href="/">
-    <img class="nav-logo"  height="40"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
+  <div class="fill-remaining-space" >
+  <a href="/">
+    <img class="nav-logo"  height="40"  src="/assets/quizify_logo.svg" alt="Logo Quizify"  />
   </a>
+  </div>
   <button mat-button (click)="this.router.navigate(['create'])">
     <fa-icon [icon]="faPlus"></fa-icon>
     Create quiz

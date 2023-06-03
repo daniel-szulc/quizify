@@ -4,6 +4,7 @@ export class UserModal {
     public email: string,
     public uid: string,
     public image: string,
-    public quizzes: string[]
+    public quizzes: string[],
+    public customImage?: string
   ) { }
 }

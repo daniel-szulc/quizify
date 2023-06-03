@@ -8,9 +8,14 @@ import { IconNamesEnum } from 'ngx-bootstrap-icons';
   styleUrls: [ '../carousel/carousel.component.sass', './carousel-category.component.sass']
 })
 export class CarouselCategoryComponent extends CarouselComponent{
+
   @Input() override itemWidth = 210;
   @Input() override itemHeight = 150;
   @Input() iconSize = '30px';
   iconNames = IconNamesEnum;
+
+  navigate(categoryId: string){
+    this.router.navigate(["category", categoryId])
+  }
 
 }
