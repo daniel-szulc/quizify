@@ -20,9 +20,6 @@ export class AuthGuard {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(next.url)
-    console.log(next.component)
-    console.log(next.component?.name)
     if (this.authService.isLoggedIn !== true) {
       //window.alert('Access Denied, Login is Required to Access This Page!');
       let message = "";

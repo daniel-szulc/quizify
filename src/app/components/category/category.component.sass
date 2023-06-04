@@ -1,0 +1,89 @@
+@import "../../../assets/styles"
+
+
+.container
+  display: block
+  justify-content: center
+  align-items: center
+  height: 100%
+  width: 100%
+  overflow-y: auto
+  margin: 0
+  padding-top: 50px
+  max-width: unset
+  .category-container
+    margin-top: 50px
+    border-radius: 15px
+    background: $common-color
+    padding: 10px
+    padding-top: 50px
+    justify-items: center
+    align-items: center
+    text-align: center
+  .spinner
+    text-align: center
+    justify-content: center
+    justify-items: center
+    height: 100%
+    align-items: center
+    mat-spinner
+      margin: 0
+      position: absolute
+      top: 50%
+      left: 50%
+      -ms-transform: translate(-50%, -50%)
+      transform: translate(-50%, -50%)
+
+  mat-card
+    padding: 0
+    margin-inline: 5px
+    margin-block: 15px
+    text-align: center
+    justify-content: center
+    align-items: center
+    background: $darkCommon
+    mat-card-header
+      .quiz-title
+        text-wrap: nowrap
+        font-size: 25px
+        color: $primary-dark
+        font-weight: 500
+    mat-card-content
+      padding: 5px 20px
+      width: 100%
+      margin: 10px
+      text-align: center
+      justify-content: center
+      align-items: center
+      .quiz-description
+         text-align: left
+         color: grey
+      .madeBy
+        margin-top: 10px
+        text-align: left
+        color: grey
+.iconFrame
+  background-color: $darkCommon
+  height: min-content
+  width: min-content
+  margin-block: 10px
+  margin-inline: auto
+  padding: 20px
+  border-radius: 50%
+  aspect-ratio: 1
+  text-align: center
+  justify-content: center
+  align-items: center
+  fa-icon, i-bs
+    color: $primary
+
+.quiz-row
+  display: flex
+  flex-wrap: wrap
+
+.quiz-card
+  height: 100%
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+

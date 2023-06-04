@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 
-import {map} from "rxjs/operators";
+import {concatMap, map, toArray} from "rxjs/operators";
 import {CategoryModal} from "./modal/category";
 import {QuizModal} from "./modal/quiz";
 
@@ -14,6 +14,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import {from, switchMap} from "rxjs";
 
 const categories = [
   {
@@ -245,11 +246,23 @@ export class QuizService {
   }
 
   getQuizData(quizID: string) {
-
     return this.fireStore.collection('quizzes').doc(quizID).get().pipe(map(res => {
-      // @ts-ignore
-      return (res.exists && res.data()) ? res.data() as QuizModal : null;
+      if (res.exists && res.data()) {
+        const quizData = res.data() as QuizModal;
+        quizData.quizID = quizID;
+        return quizData;
+      } else {
+        return null;
+      }
     }));
+  }
+
+
+  getQuizzes(quizIDs: string[]) {
+    return from(quizIDs).pipe(
+      concatMap(quizID => this.getQuizData(quizID)),
+      toArray()
+    );
   }
 
   signOut() {

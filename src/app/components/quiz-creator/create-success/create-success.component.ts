@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {AuthService} from "../../../shared/auth/auth.service";
 import {Router} from "@angular/router";
+import {ClipboardService} from "../../../shared/clipboard.service";
 
 @Component({
   selector: 'app-create-success',
@@ -8,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['../quiz-creator.component.sass', './create-success.component.sass']
 })
 export class CreateSuccessComponent {
-  constructor(public router: Router) {}
+  constructor(public router: Router, private clipboardService: ClipboardService) {}
 
   @Input() quizId: string | undefined;
 
@@ -16,35 +17,14 @@ export class CreateSuccessComponent {
 
 
   getQuizUrl(){
-    const baseUrl = window.location.origin;
-    return `${baseUrl}/quiz?id=${this.quizId}`;
+    if (this.quizId)
+      return this.clipboardService.getQuizUrl(this.quizId);
+    return null;
   }
 
   shareQuiz() {
-    this.copied = true;
-    this.copyToClipboard(this.getQuizUrl());
+    if(this.quizId)
+      this.clipboardService.copyQuizUrl(this.quizId);
   }
 
-  copyToClipboard(text: string) {
-
-    if (!navigator.clipboard){
-      const input = document.createElement('input');
-      input.style.position = 'fixed';
-      input.style.opacity = '0';
-      input.value = text;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand('copy');
-      document.body.removeChild(input);
-    } else{
-      navigator.clipboard.writeText(text).then(
-        function(){
-          alert("yeah!"); // success
-        })
-        .catch(
-          function() {
-            alert("err"); // error
-          });
-    }
-  }
 }

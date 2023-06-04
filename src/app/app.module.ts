@@ -31,10 +31,12 @@ import {CarouselComponent} from "./components/carousel/carousel.component";
 import {CarouselCategoryComponent} from "./components/carousel-category/carousel-category.component";
 import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 import {CarouselSlidesComponent} from "./components/carousel-slides/carousel-slides.component";
-import {NgbCarousel, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbCarousel, NgbModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {QuizCreatorComponent} from "./components/quiz-creator/quiz-creator.component";
 import {FormsModule} from "@angular/forms";
 import { CreateSuccessComponent } from './components/quiz-creator/create-success/create-success.component';
+import { CategoryComponent } from './components/category/category.component';
+import {ClipboardService} from "./shared/clipboard.service";
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { CreateSuccessComponent } from './components/quiz-creator/create-success
         CarouselComponent,
         CarouselCategoryComponent,
          QuizCreatorComponent,
-         CreateSuccessComponent
+         CreateSuccessComponent,
+         CategoryComponent
     ],
   imports: [
     BrowserModule,
@@ -70,15 +73,16 @@ import { CreateSuccessComponent } from './components/quiz-creator/create-success
     NgbCarousel,
     CarouselSlidesComponent,
     NgbModule,
-    FormsModule
+    FormsModule,
+    NgbPaginationModule,
   ],
   providers: [
     AuthService,
     AuthGuard,
     SecureInnerPagesGuard,
     UsersService,
+    ClipboardService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
-
   ],
   bootstrap: [AppComponent]
 })

@@ -10,6 +10,7 @@ import {ForgotPasswordComponent} from "./components/sign-in/forgot-password/forg
 import {QuizComponent} from "./components/quiz/quiz.component";
 import {ResultComponent} from "./components/result/result.component";
 import {QuizCreatorComponent} from "./components/quiz-creator/quiz-creator.component";
+import {CategoryComponent} from "./components/category/category.component";
 
 const routes: Routes = [
   {
@@ -54,8 +55,9 @@ const routes: Routes = [
   },
   {
     path: 'category/:id',
-    component: QuizComponent
-  }
+    component: CategoryComponent
+  },
+  { path: '**', redirectTo: '' }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

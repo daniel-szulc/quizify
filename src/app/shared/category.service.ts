@@ -23,6 +23,12 @@ export class CategoryService {
 
   }
 
+  getCategory(id: string){
+    return this.getCategories().pipe(
+      map(categories => categories.find(category => category.id === id))
+    );
+  }
+
 
   getCategories(){
 

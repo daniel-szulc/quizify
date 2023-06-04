@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit{
 
 
 
-  categories:CarouselItem[] = [];
+  categories: CarouselItem[] = [];
 
   promoQuizzes: PromoQuizModal[] = [];
   iconNames = IconNamesEnum;

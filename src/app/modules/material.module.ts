@@ -19,6 +19,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatPaginatorModule} from "@angular/material/paginator";
 @NgModule({
   declarations: [],
   exports: [
@@ -40,7 +42,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatSelectModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    MatGridListModule
+    MatGridListModule,
+
   ]
 })
 export class MaterialModule { }

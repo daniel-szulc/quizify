@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+
+<div class="container dark-background">
+  <div class="spinner" *ngIf="!category && !noCategory">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="category-container">
+    <ng-container *ngIf="category && categoryFound; else noCategory">
+
+      <div class="iconFrame">
+        <div class="iconWrapper">
+          <i-bs width="50" height="50" *ngIf="icon" [name]="icon"></i-bs>
+        </div>
+      </div>
+
+      <h2>{{category.name}}</h2>
+
+      <h5>quizzes: {{category.quizzes ? category.quizzes.length : 0}}</h5>
+      <ng-container *ngIf="quizzesFound; else noQuizzes">
+        <div class="row quiz-row">
+          <div class="col-md-6" *ngFor="let quiz of quizzes">
+            <div *ngIf="quiz">
+              <mat-card class="quiz-card" *ngIf="quiz.quizID">
+                <mat-card-header>
+                  <mat-card-title class="quiz-title">{{ getLimitedText(quiz.name, 25) }}</mat-card-title>
+
+                </mat-card-header>
+                <mat-card-content>
+                  <p class="quiz-description">{{ getLimitedText(quiz.description, 250) }}</p>
+                  <button mat-flat-button color="primary"  (click)="goToQuiz(quiz.quizID)">Take the quiz</button>
+
+                  <button mat-stroked-button (click)="shareQuiz(quiz.quizID)" >
+                    <i class="bi bi-share"></i>
+                    Share quiz
+                  </button>
+
+                  <div class="madeBy">
+                  Made by: {{ quiz.authorId }}
+                  </div>
+                </mat-card-content>
+
+              </mat-card>
+            </div>
+          </div>
+        </div>
+
+        <ngb-pagination [collectionSize]="quizzesIDs.length" [(page)]="currentPage" [pageSize]="pageSize" (pageChange)="pageChange($event)"></ngb-pagination>
+      </ng-container>
+
+      <ng-template #noQuizzes>
+        <p>No quizzes found in this category.</p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #noCategory>
+      <div class="iconFrame">
+        <div class="iconWrapper">
+          <i-bs width="50" height="50" name="question"></i-bs>
+        </div>
+      </div>
+      <p>No such category found.</p>
+    </ng-template>
+  </div>
+</div>
