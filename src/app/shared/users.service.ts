@@ -5,7 +5,7 @@ import {AuthService} from "./auth/auth.service";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import firebase from "firebase/compat";
 import {UserModal} from "./modal/user";
-import {first, from, mergeMap, Observable, of, switchMap, tap} from "rxjs";
+import {first, from, mergeMap, Observable, of, switchMap, take, tap} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -79,16 +79,28 @@ export class UsersService {
 
 
   sendUsersData(user: UserModal) {
+    console.log("sendUsersData")
     const userDocRef = this.fireStore.collection('users').doc(user.uid);
+      let data = {
+        "username": user.username,
+        "image": user.image,
+        "quizzes": user.quizzes
+      }
 
-    const data = {
-      "username": user.username,
-      "image": user.image,
-      "quizzes": user.quizzes
-    }
     userDocRef.get().pipe(first()).subscribe(docSnapshot => {
       if (docSnapshot.exists) {
-        userDocRef.update(data);
+        if(!user.quizzes || user.quizzes.length==0) {
+          this.getUserData(user.uid).pipe(take(1)).subscribe(user => {
+              if (user) { // @ts-ignore
+                data.quizzes = user.quizzes;
+              }
+              console.log(data)
+              userDocRef.update(data);
+            }
+          )
+        }
+        else
+          userDocRef.update(data);
       } else {
         userDocRef.set(data, { merge: true });
       }

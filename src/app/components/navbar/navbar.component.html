@@ -10,7 +10,7 @@
   </button>
   <button mat-button *ngIf="!isLoggedIn && !isSignInPage" (click)="this.router.navigate(['sign-in'])">
     <fa-icon [icon]="faUser"></fa-icon>
-    Sign In
+    Log In
   </button>
 
   <mat-menu #userMenu="matMenu" xPosition="before">
@@ -21,7 +21,7 @@
       </button>
       <button mat-menu-item (click)="onSignOut()">
         <fa-icon [icon]="faRightFromBracket"></fa-icon>
-        Sign Out
+        Log Out
       </button>
     </ng-template>
   </mat-menu>

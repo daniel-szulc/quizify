@@ -259,6 +259,8 @@ export class QuizService {
 
 
   getQuizzes(quizIDs: string[]) {
+
+    if(quizIDs == undefined) null;
     return from(quizIDs).pipe(
       concatMap(quizID => this.getQuizData(quizID)),
       toArray()

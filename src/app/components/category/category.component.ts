@@ -65,6 +65,8 @@ export class CategoryComponent implements OnInit {
     this.quizService.getQuizzes(quizSubset)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(quizzes => {
+        if(!quizzes)
+          return;
         this.quizzes = [...this.quizzes, ...quizzes];
 
         if(this.quizzes)

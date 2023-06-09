@@ -66,6 +66,17 @@ export class AuthService {
   }
 
 
+  public getUserID(){
+    if(this.user)
+      return this.user.uid;
+    if(this.userData)
+      return this.userData.uid;
+    const currentUser = JSON.parse(localStorage.getItem('user')!);
+    if(currentUser)
+      return currentUser.uid;
+    return null;
+  }
+
 
 
 
@@ -99,12 +110,15 @@ export class AuthService {
 
     if(!user)
       user = this.userData;
-    let photoURL = user["customImage"]
+    let photoURL = null;
+    if(user?.customImage)
+      photoURL = user["customImage"]
+
     if(photoURL){
       return photoURL
     }
-
-    photoURL = user["photoURL"];
+    if(user?.photoURL)
+      photoURL = user["photoURL"];
 
     if(!photoURL)
     {
@@ -121,6 +135,7 @@ export class AuthService {
     }
     return photoURL;
   }
+
 
   CreateUser(user: User | null, email: string, username: string){
     if(user) {
