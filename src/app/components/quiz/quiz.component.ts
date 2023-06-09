@@ -7,7 +7,7 @@ import {QuestionModal} from "../../shared/modal/question";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import { Location } from '@angular/common'
 import {QuizModal} from "../../shared/modal/quiz";
-import {first} from "rxjs";
+import {first, take} from "rxjs";
 
 @Component({
   selector: 'app-quiz',
@@ -28,7 +28,7 @@ export class QuizComponent implements OnInit {
 
 
 
-      this.route.params.subscribe(params => {
+      this.route.params.pipe(first()).subscribe(params => {
         this.quizID = params['id'];
         if(this.quizID) {
           this.getQuizData(this.quizID);
@@ -48,8 +48,6 @@ export class QuizComponent implements OnInit {
     this.quizService.qnProgress = 0;
     this.quizService.seconds = 0;
 
-
-    // this.quizService.addData({ answer: 0, imageName: " ", options: ["True", "False"], question: "Is 'undefined' a data type in javascript?" });
   }
 
   public get valueAsStyle(): any {

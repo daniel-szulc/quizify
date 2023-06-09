@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, switchMap} from "rxjs";
+import {first, Observable, Subject, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoryService} from "../../shared/category.service";
-import {map} from "rxjs/operators";
+import {map, takeUntil} from "rxjs/operators";
 import {QuizService} from "../../shared/quiz.service";
 import {QuizModal} from "../../shared/modal/quiz";
 import {CategoryModal} from "../../shared/modal/category";
 import {IconName as BootstrapIconName, IconName} from "ngx-bootstrap-icons/lib/types/icon-names.type";
 import {findIconDefinition} from "@fortawesome/fontawesome-svg-core";
 import {ClipboardService} from "../../shared/clipboard.service";
+import {UsersService} from "../../shared/users.service";
 
 @Component({
   selector: 'app-category',
@@ -22,6 +23,7 @@ export class CategoryComponent implements OnInit {
   private currentIndex: number = 0;
   public category: CategoryModal | null = null;
   public icon: BootstrapIconName | undefined;
+  private unsubscribe$ = new Subject<void>();
   currentPage: number = 1;
   public categoryFound: boolean = true;
   public quizzesFound: boolean = true;
@@ -30,6 +32,7 @@ export class CategoryComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private quizService: QuizService,
+    private userService: UsersService,
     private clipboardService: ClipboardService
   ) { }
 
@@ -37,7 +40,7 @@ export class CategoryComponent implements OnInit {
     this.route.params.pipe(
       map(params => params['id']),
       switchMap(id => this.categoryService.getCategory(id))
-    ).subscribe(category => {
+    ).pipe(first()).subscribe(category => {
       if (!category) {
         this.categoryFound = false;
         return;
@@ -56,14 +59,27 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
+
   loadMoreQuizzes(): void {
     const quizSubset = this.quizzesIDs.slice(this.currentIndex, this.currentIndex + this.pageSize);
-    this.quizService.getQuizzes(quizSubset).subscribe(quizzes => {
-      console.log(quizzes)
-      this.quizzes = [...this.quizzes, ...quizzes];
-      console.log(this.quizzes)
-      this.currentIndex += this.pageSize;
-    });
+    this.quizService.getQuizzes(quizSubset)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(quizzes => {
+        this.quizzes = [...this.quizzes, ...quizzes];
+
+        if(this.quizzes)
+        this.quizzes.forEach(quiz => {
+          if(quiz)
+          this.userService.getUsername(quiz.authorId)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(username => {
+              quiz.authorName = username;
+            });
+        });
+
+        console.log(this.quizzes);
+        this.currentIndex += this.pageSize;
+      });
   }
 
   pageChange(newPage: number): void {
@@ -86,36 +102,13 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  getQuizUrl(id: string){
-    const baseUrl = window.location.origin;
-    return `${baseUrl}/quiz?id=${id}`;
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   shareQuiz(id: string) {
     this.clipboardService.copyQuizUrl(id);
-  }
-
-  copyToClipboard(text: string) {
-
-    if (!navigator.clipboard){
-      const input = document.createElement('input');
-      input.style.position = 'fixed';
-      input.style.opacity = '0';
-      input.value = text;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand('copy');
-      document.body.removeChild(input);
-    } else{
-      navigator.clipboard.writeText(text).then(
-        function(){
-          alert("yeah!"); // success
-        })
-        .catch(
-          function() {
-            alert("err"); // error
-          });
-    }
   }
 
 }
