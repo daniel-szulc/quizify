@@ -1,11 +1,15 @@
 <app-navbar></app-navbar>
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
 <div class="home-container">
 <div style="padding: 60px"></div>
 
+  <main *ngIf="!isLoading">
   <app-carousel-slides [items]="promoQuizzes"></app-carousel-slides>
 
   <div style="padding: 20px"></div>
   <h3>Categories</h3>
 <app-carousel-category [items]="categories"></app-carousel-category>
-
+  </main>
 </div>

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit{
 
   constructor(private categoryService: CategoryService, private quizService: QuizService) { }
 
-
+  isLoading: Boolean = false;
 
   categories: CarouselItem[] = [];
 
@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit{
   iconNames = IconNamesEnum;
 
   ngOnInit() {
+    this.isLoading = true;
     this.categoryService.getCategories().pipe(take(1)).subscribe((categoryModals: CategoryModal[]) => {
       for (const category of categoryModals) {
 
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit{
           this.promoQuizzes.push(promoQuiz)
         }
       }
+      this.isLoading = false;
     });
   }
 }
