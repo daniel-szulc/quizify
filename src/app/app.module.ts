@@ -37,6 +37,8 @@ import {FormsModule} from "@angular/forms";
 import { CreateSuccessComponent } from './components/quiz-creator/create-success/create-success.component';
 import { CategoryComponent } from './components/category/category.component';
 import {ClipboardService} from "./shared/clipboard.service";
+import {ConfirmDialogComponent} from "./components/user-profile/ConfirmDialogComponent";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import {ClipboardService} from "./shared/clipboard.service";
         CarouselCategoryComponent,
          QuizCreatorComponent,
          CreateSuccessComponent,
-         CategoryComponent
+         CategoryComponent,
+
     ],
   imports: [
     BrowserModule,
@@ -75,6 +78,8 @@ import {ClipboardService} from "./shared/clipboard.service";
     NgbModule,
     FormsModule,
     NgbPaginationModule,
+    MatDialogModule,
+    ConfirmDialogComponent
   ],
   providers: [
     AuthService,

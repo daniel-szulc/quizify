@@ -9,6 +9,8 @@ import {UserModal} from "../../shared/modal/user";
 import {CategoryService} from "../../shared/category.service";
 import {ClipboardService} from "../../shared/clipboard.service";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "./ConfirmDialogComponent";
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -21,7 +23,8 @@ export class UserProfileComponent implements OnInit {
     private categoryService: CategoryService,
     private quizService: QuizService,
     private clipboardService: ClipboardService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   quizzes: (QuizModal | null)[] = [];
@@ -79,9 +82,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   deleteQuiz(quiz: QuizModal): void {
-    if(quiz.quizID)
-      this.quizService.deleteQuiz(quiz.quizID);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        if(quiz.quizID) {
+          this.isLoading=true;
+          this.quizService.deleteQuiz(quiz.quizID).then(() => {
+            this.loadQuizzes();
+          });
+        }
+
+      }
+    });
   }
+
 
   solveQuiz(quiz: QuizModal): void {
     this.router.navigate(['quiz', quiz.quizID])
@@ -95,9 +112,6 @@ export class UserProfileComponent implements OnInit {
       this.clipboardService.copyQuizUrl(quiz.quizID);
     }
   }
-
-
-
 
   getImage() {
     return this.authService.getImage();
