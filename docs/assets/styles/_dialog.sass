@@ -1,0 +1,30 @@
+@import "custom-theme"
+.confirm-dialog
+  h2
+    font-size: 10em
+    color: $primary  /* Kolor niebieski, ale możesz go zmienić na dowolny */
+
+  h2.mat-dialog-title
+    font-size: 10em !important
+  /* Styl dla treści dialogu */
+  mat-dialog-content
+    font-size: 3.2em
+    color: #333     /* Kolor szary, ale możesz go zmienić na dowolny */
+    margin: 10px 0  /* Dodaj trochę przestrzeni nad i pod treścią */
+
+
+  /* Styl dla przycisków dialogu */
+  mat-dialog-actions
+    justify-content: center /* Wyrównaj przyciski do prawej strony */
+
+
+  /* Styl dla przycisków */
+  mat-dialog-actions button
+    color: #3f51b5  /* Kolor niebieski, ale możesz go zmienić na dowolny */
+    margin-left: 10px
+
+
+  /* Styl dla przycisku z napisem "Yes" */
+  mat-dialog-actions button[cdkFocusInitial]
+    color: #f44336  /* Kolor czerwony, ale możesz go zmienić na dowolny */
+

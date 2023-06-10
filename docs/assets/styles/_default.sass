@@ -1,0 +1,43 @@
+@import "custom-theme"
+
+.dark-background
+  background-color: $darkCommon
+
+.container
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
+  width: 100%
+  overflow-y: auto
+  margin: 0
+  max-width: unset
+  button
+    border-radius: 8px
+  .text-link
+    color: map-get($quizify-primary, text)
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+
+
+.items-left
+  margin-left: 0
+  margin-right: auto
+  text-align: left
+
+.items-right
+  margin-left: auto
+  margin-right: 0
+  text-align: right
+
+.items-center
+  margin-left: auto
+  margin-right: auto
+  text-align: center
+
+button
+  font-family: 'Comme', sans-serif
+
+
+
