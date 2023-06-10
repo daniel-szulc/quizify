@@ -1,6 +1,6 @@
   <mat-card >
-    <mat-card-title style="margin-bottom: 20px">Quiz created successfully</mat-card-title>
-
+    <mat-card-title *ngIf="!editQuizId" style="margin-bottom: 20px">Quiz created successfully</mat-card-title>
+    <mat-card-title *ngIf="editQuizId" style="margin-bottom: 20px">Quiz updated successfully</mat-card-title>
     <mat-card-content>
 
       <mat-form-field appearance="fill" class="quiz-form__field">
@@ -12,7 +12,7 @@
 
       </mat-form-field>
 
-      <button mat-flat-button color="primary">
+      <button mat-flat-button color="primary" (click)="takeTheQuiz()">
         Go to quiz
       </button>
 
@@ -21,7 +21,7 @@
         Share quiz
       </button>
 
-      <button mat-stroked-button >
+      <button mat-stroked-button (click)="goHome()" >
         Back to Home
       </button>
     </mat-card-content>

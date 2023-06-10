@@ -3,11 +3,12 @@ import {FormBuilder, FormGroup, Validators, FormArray, FormControl, AbstractCont
 import {QuizModal} from "../../shared/modal/quiz";
 import {CategoryService} from "../../shared/category.service";
 import {QuizService} from "../../shared/quiz.service";
-import {Observable, startWith, take} from "rxjs";
+import {first, Observable, startWith, take} from "rxjs";
 import {map} from "rxjs/operators";
 import {CategoryModal} from "../../shared/modal/category";
 import {QuestionModal} from "../../shared/modal/question";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-quiz-creator',
@@ -24,38 +25,91 @@ export class QuizCreatorComponent implements OnInit {
   isOpened: boolean = false;
   isLoading:boolean = true;
   isSubmitted:boolean =false;
+  isEditQuizNotFound:boolean =false;
 
   quizId: string | undefined;
+
+  editQuizId: string | undefined;
+
  //categories: Observable<string[]>;
-  constructor(private  router: Router, private fb: FormBuilder, private categoryService: CategoryService, private quizService: QuizService) { }
+  constructor(private route: ActivatedRoute, public router: Router, private fb: FormBuilder, private authService: AuthService, private categoryService: CategoryService, private quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.categoryService.getCategories().pipe(take(1)).subscribe((categoryModals: CategoryModal[]) => {
+    this.route.params.subscribe(params => {
+      this.editQuizId = params['id'];
 
-      this.isLoading=true;
+      this.categoryService.getCategories().pipe(take(1)).subscribe((categoryModals: CategoryModal[]) => {
 
-      if (!categoryModals) return;
-         categoryModals.forEach(categoryModal => this.categories.set(categoryModal.id, categoryModal.name));
+        this.isLoading = true;
 
-      this.lastValidCategory = categoryModals[0].id;
+        if (!categoryModals) return;
+        categoryModals.forEach(categoryModal => this.categories.set(categoryModal.id, categoryModal.name));
 
-      this.quizForm = this.fb.group({
-        name: ['', Validators.required],
-        description: [''],
-        categoryId: [this.lastValidCategory, Validators.required],
-        categoryDisplay: [this.categories.get(this.lastValidCategory)],
-        questions: this.fb.array([
-          this.initQuestion()
-        ])
+        this.lastValidCategory = categoryModals[0].id;
+
+        this.initForm();
+
+        this.filteredCategories = this.quizForm.controls['categoryDisplay'].valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+
+        if (this.editQuizId) {
+          this.quizService.getQuizData(this.editQuizId).subscribe((quiz) => {
+            if(quiz) {
+
+              if(quiz.authorId == this.authService.getUserID()) {
+                this.fillFormWithQuizData(quiz);
+              }
+              else {
+                this.isEditQuizNotFound = true;
+              }
+
+            }
+            else{
+              this.isEditQuizNotFound = true;
+            }
+            this.isLoading = false;
+          });
+        } else {
+          this.isLoading = false;
+        }
       });
+    });
+  }
 
-      this.filteredCategories = this.quizForm.controls['categoryDisplay'].valueChanges
-        .pipe(
-          startWith(''),
-          map(value => this._filter(value))
-        );
+  initForm(): void {
+    this.quizForm = this.fb.group({
+      name: ['', Validators.required],
+      description: [''],
+      categoryId: [this.lastValidCategory, Validators.required],
+      categoryDisplay: [this.categories.get(this.lastValidCategory)],
+      questions: this.fb.array([
+        this.initQuestion()
+      ])
+    });
+  }
 
-      this.isLoading=false;
+  fillFormWithQuizData(quiz: QuizModal): void {
+    this.quizForm.patchValue({
+      name: quiz.name,
+      description: quiz.description,
+      categoryId: quiz.categoryId,
+      categoryDisplay: this.categories.get(quiz.categoryId),
+    });
+
+    this.quizForm.setControl('questions', this.fb.array(quiz.questions.map((q: QuestionModal) => this.initQuestionWithData(q))));
+  }
+
+  initQuestionWithData(question: QuestionModal): FormGroup {
+    return this.fb.group({
+      question: [question.question, Validators.required],
+      options: this.fb.array(
+        question.options.map(option => new FormControl(option)),
+        Validators.required
+      ),
+      answer: [question.answer, Validators.required]
     });
   }
 
@@ -174,25 +228,28 @@ export class QuizCreatorComponent implements OnInit {
 
   submitQuiz(): void {
 
-
-
     if (this.quizForm.valid) {
       this.isLoading = true;
       const quizData: QuizModal =  this.mapFormToQuizModal();
-      console.log(quizData)
-       this.quizService.createQuiz(quizData).then(res =>{
-         console.log(res)
-         this.isLoading = false;
-         this.quizId = res;
-         }
-       )
+
+      if(!this.editQuizId) {
+        this.quizService.createQuiz(quizData).then(res => {
+            console.log(res)
+            this.isLoading = false;
+            this.quizId = res;
+          }
+        )
+      }
+      else {
+        this.quizService.updateQuiz(this.editQuizId, quizData).then(res => {
+            console.log(res)
+            this.isLoading = false;
+            this.quizId = this.editQuizId;
+          }
+        )
+      }
     }
-
-
-
   }
-
-
 
   get questions() {
     return this.quizForm.get('questions') as FormArray;

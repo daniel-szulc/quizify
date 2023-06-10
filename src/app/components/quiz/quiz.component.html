@@ -5,7 +5,7 @@
   <div class="spinner" *ngIf="isLoading">
     <mat-spinner></mat-spinner>
   </div>
-    <mat-card *ngIf="isQuizNotFound">
+    <mat-card *ngIf="isQuizNotFound" >
         <a class="logo-wrapper" href="/">
           <img class="logo"  height="70"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
         </a>
@@ -48,11 +48,7 @@
 
 
         </mat-card-header>
-        <!-- Image -->
-      <!--  <img *ngIf="quizService.questionData[quizService.qnProgress].imageName" mat-card-image
-            [src]="'../assets/img/'+quizService.questionData[quizService.qnProgress].imageName" alt="Question image">-->
         <mat-card-content *ngIf="quizService.questionData[quizService.qnProgress].options.length">
-            <!-- Options -->
           <div class="option-buttons-container">
           <button mat-flat-button color="primary" *ngFor="let option of quizService.questionData[quizService.qnProgress].options let i = index"
                   [value]="i" (click)="selectAnswer(i)">{{option}}</button>

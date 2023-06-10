@@ -13,6 +13,8 @@ export class CreateSuccessComponent {
 
   @Input() quizId: string | undefined;
 
+  @Input() editQuizId: string | undefined;
+
   copied: boolean = false;
 
 
@@ -25,6 +27,14 @@ export class CreateSuccessComponent {
   shareQuiz() {
     if(this.quizId)
       this.clipboardService.copyQuizUrl(this.quizId);
+  }
+
+  goHome(){
+    this.router.navigate(['/']);
+  }
+
+  takeTheQuiz(){
+    this.router.navigate(['quiz/'+this.quizId]);
   }
 
 }

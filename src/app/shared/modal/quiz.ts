@@ -23,4 +23,5 @@ export interface QuizModal {
      authorId: string;
      quizID?: string;
      authorName?: string;
+     categoryName?: string;
 }

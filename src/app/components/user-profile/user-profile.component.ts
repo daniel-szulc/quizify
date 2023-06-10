@@ -6,17 +6,27 @@ import {QuizService} from "../../shared/quiz.service";
 import {takeUntil} from "rxjs/operators";
 import {first, take} from "rxjs";
 import {UserModal} from "../../shared/modal/user";
+import {CategoryService} from "../../shared/category.service";
+import {ClipboardService} from "../../shared/clipboard.service";
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.sass'],
 })
 export class UserProfileComponent implements OnInit {
-  constructor(public authService: AuthService, public usersService: UsersService, private quizService: QuizService) {}
+  constructor(
+    public authService: AuthService,
+    public usersService: UsersService,
+    private categoryService: CategoryService,
+    private quizService: QuizService,
+    private clipboardService: ClipboardService,
+    private router: Router
+  ) {}
 
   quizzes: (QuizModal | null)[] = [];
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 5;
   isLoading: Boolean = false;
   ngOnInit(): void {
     this.loadQuizzes();
@@ -41,8 +51,19 @@ export class UserProfileComponent implements OnInit {
           .subscribe(
             (quizzes: (QuizModal | null)[]) => {
 
-              if(quizzes)
-               this.quizzes = quizzes;
+              if(quizzes) {
+                quizzes.forEach(quiz => {
+                  if(quiz)
+                    this.categoryService.getCategory(quiz.categoryId)
+                      .pipe(take(1))
+                      .subscribe(category => {
+                        if(category) {
+                          quiz.categoryName = category.name;
+                        }
+                      });
+                });
+                this.quizzes = quizzes;
+              }
               this.isLoading  = false;
             }
           );
@@ -58,14 +79,26 @@ export class UserProfileComponent implements OnInit {
   }
 
   deleteQuiz(quiz: QuizModal): void {
-    if (confirm('Czy na pewno chcesz usunąć ten quiz?')) {
-      // Logika usuwania quizu
+    if(quiz.quizID)
+      this.quizService.deleteQuiz(quiz.quizID);
+  }
+
+  solveQuiz(quiz: QuizModal): void {
+    this.router.navigate(['quiz', quiz.quizID])
+  }
+  editQuiz(quiz: QuizModal): void {
+    this.router.navigate(['edit', quiz.quizID])
+  }
+
+  shareQuiz(quiz: QuizModal): void {
+    if (quiz.quizID != null) {
+      this.clipboardService.copyQuizUrl(quiz.quizID);
     }
   }
 
-  editQuiz(quiz: QuizModal): void {
-    // Logika edycji quizu
-  }
+
+
+
   getImage() {
     return this.authService.getImage();
   }

@@ -14,7 +14,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import {from, switchMap} from "rxjs";
+import {first, from, switchMap} from "rxjs";
 
 const categories = [
   {
@@ -150,12 +150,13 @@ export class QuizService {
   }
 
 
-  async addQuizToCategory(categoryId: string, quizId: string): Promise<void> {
-    const categoryRef = this.fireStore.collection('categories').doc(categoryId).ref;
+
+  async addQuizToCollection(collectionId: string, quizId: string, collection: string): Promise<void> {
+    const userRef = this.fireStore.collection(collection).doc(collectionId).ref;
 
     try {
       // Get the current 'quizzes' array from the category document
-      const doc = await categoryRef.get();
+      const doc = await userRef.get();
 
       if (!doc.exists) {
         console.log('No such document!');
@@ -165,8 +166,7 @@ export class QuizService {
         const quizzes = doc.data()?.quizzes ?? [];
         quizzes.push(quizId);
 
-        // Update the 'quizzes' array in the category document
-        return categoryRef.update({ quizzes });
+        return userRef.update({ quizzes });
       }
     } catch (error) {
       console.log('Error getting document:', error);
@@ -185,10 +185,10 @@ export class QuizService {
      if(res.id)
      {
        console.log(res.id)
-       this.addQuizToCategory(data.categoryId, res.id);
-       // this.fireStore.collection('categories').doc(data.categoryId).update({
-       //   quizzes: firebase.firestore.FieldValue.arrayUnion(res.id)
-       // });
+       //add quiz to categories collection
+       this.addQuizToCollection(data.categoryId, res.id, "categories");
+       //add quiz to users collection
+       this.addQuizToCollection(data.authorId, res.id, "users");
        return res.id
      }
      return undefined;
@@ -198,45 +198,20 @@ export class QuizService {
 
   }
 
-/*  sendData(){
+  updateQuiz(quizId: string, data: QuizModal): Promise<void> {
+    if(this.authService.user)
+      data = {...data, authorId: this.authService.user.uid}
+    else
+      data = {...data, authorId: this.authService.userData.uid}
 
-    const questionsData: QuestionModal[] = [
-      {
-        question: "What is 2 + 2?",
-        answer: 2,
-        options: ["22", "5", "4", "√13"]
-      },
-      {
-        question: "What is 100 - 52?",
-        answer: 1,
-        options: ["52", "48", "46", "2"]
-      },
-      {
-        question: "What is 10 ÷ 5?",
-        answer: 0,
-        options: ["2", "5", "1", "16"]
-      },
-      {
-        question: "What is 2 × 12?",
-        answer: 3,
-        options: ["221", "2", "212", "24"]
-      },
-    ]
+    console.log(data);
 
-    const category: CategoryModal = {name: "Math", quizzes: [], icon: "math"}
-
-    const data: QuizModal = {
-      authorId: "test",
-      category: category,
-      questions: questionsData
-    }
-
-
-    this.fireStore.collection('quizzes').add(data).then(res =>{
-      console.log(res)
-    })
-
-  }*/
+    return this.fireStore.collection('quizzes').doc(quizId).update(data).then(() => {
+      console.log(`Quiz with ID: ${quizId} updated successfully.`);
+    }, error => {
+      console.error('Error while updating quiz: ', error);
+    });
+  }
 
   // Timer
   displayTimeElapsed() {
@@ -257,8 +232,44 @@ export class QuizService {
     }));
   }
 
+  public async deleteQuiz(quizId: string): Promise<void> {
 
-  getQuizzes(quizIDs: string[]) {
+    this.getQuizData(quizId).pipe(first()).subscribe(
+      async quiz => {
+        if(!quiz)
+          return;
+        console.log(quizId)
+        console.log(quiz)
+
+        // Remove the quizId from the 'quizzes' array in the category document
+
+        console.log("categories")
+
+        const categoryRef = this.fireStore.collection('categories').doc(quiz.categoryId).ref;
+        console.log("categories")
+
+
+        await categoryRef.update({
+          quizzes: firebase.firestore.FieldValue.arrayRemove(quizId)
+        });
+          console.log("categories success")
+
+
+
+        // Remove the quizId from the 'quizzes' array in the user document
+        const userRef = this.fireStore.collection('users').doc(quiz.authorId).ref;
+        await userRef.update({
+          quizzes: firebase.firestore.FieldValue.arrayRemove(quizId)
+        });
+        console.log("users")
+
+        await this.fireStore.collection('quizzes').doc(quizId).delete();
+        console.log("quizzes")
+      }
+    )}
+
+
+    getQuizzes(quizIDs: string[]) {
 
     if(quizIDs == undefined) null;
     return from(quizIDs).pipe(

@@ -3,13 +3,14 @@
 
 
 .container
-  display: flex
+  display: block
   justify-content: center
   align-items: center
   height: 100%
   width: 100%
   overflow-y: auto
   margin: 0
+  padding-block: 30px
   max-width: unset
 
   mat-card
@@ -40,7 +41,7 @@
         min-width: 400px
       @media #{$md-layout}
         min-width: 300px
-      @media #{$small-mobile}, #{$large-mobile}
+      @media#{$small-mobile}, #{$large-mobile}
         min-width: auto
       mat-form-field
         width: 100%
@@ -67,17 +68,6 @@
     .or-text
       margin-inline: 10px
 
-  .login-with-google-btn
-    transition: background-color .3s, box-shadow .3s
-    width: 100%
-    min-height: 45px
-    font-weight: 500
-    font-size: 18px
-
-    .google-icon-wrapper
-      padding-right: 15px
-      scale: 150%
-      content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=)
     .btn-text
       display: flex
       align-items: center
@@ -91,3 +81,44 @@
   mat-spinner
     scale: 50%
     margin: auto
+
+.quiz-grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+  gap: 20px
+
+
+.quiz-item
+  border: 1px solid #ccc
+  border-radius: 12px
+  padding: 10px
+  margin-block: 10px
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  align-items: center
+  @media #{$small-mobile}, #{$large-mobile}
+    grid-template-columns: repeat(1, 1fr)
+    grid-auto-rows: auto
+
+.quiz-name
+  font-weight: bold
+
+.quiz-category,
+.quiz-created,
+.quiz-actions
+  margin-top: 5px
+
+.quiz-actions
+  text-align: center
+
+  button
+    box-shadow: none
+    border-radius: 10px
+    margin: 5px
+
+.justify-content-center
+  display: flex !important
+  justify-content: center !important
+
+.quizzes
+  margin-block: 10px

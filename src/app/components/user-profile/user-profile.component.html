@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
-<div class="container dark-background">
 
+<div class="container dark-background">
+  <div style="margin: 60px"></div>
   <mat-card>
 
     <mat-card-title>User Profile</mat-card-title>
@@ -32,9 +33,6 @@
                     }}
                 </h5>
                 <p>
-                  User ID: <strong>{{ user.uid }}</strong>
-                </p>
-                <p>
                   Email: <strong>{{ user.email }}</strong>
                 </p>
               </div>
@@ -43,29 +41,45 @@
             <div class="spinner" *ngIf="isLoading">
               <mat-spinner></mat-spinner>
             </div>
-            <div  *ngIf="!isLoading">
+            <div clas="quizzes" *ngIf="!isLoading">
               <div *ngIf="quizzes.length==0">
                 no quizzes found
               </div>
-            <ul>
+              <div >
+                <div class="quiz-grid" *ngFor="let quiz of quizzes | slice: (currentPage-1) * pageSize : currentPage * pageSize; let i = index">
+                <div *ngIf="quiz"  class="quiz-item" >
+                  <div class="quiz-name">{{ quiz.name }}</div>
+                  <div class="quiz-category">{{ quiz.categoryName }}</div>
+<!--                  <div class="quiz-created">{{ quiz.created }}</div>-->
+                  <div class="quiz-actions">
+                    <button  (click)="solveQuiz(quiz)" mat-flat-button color="primary" type="button" matTooltip="Take the quiz">
+                      <i-bs width="20" height="20" name="file-earmark-check"></i-bs> Take
+                    </button>
+                    <button (click)="editQuiz(quiz)" mat-stroked-button type="button" matTooltip="Edit the quiz">
+                      <i-bs width="20" height="20" name="pencil-square"></i-bs> Edit
+                    </button>
+                    <button  (click)="deleteQuiz(quiz)" mat-flat-button color="warn" type="button" matTooltip="Remove the quiz">
+                      <i-bs width="20" height="20" name="trash"></i-bs> Remove
+                    </button>
 
-              <li *ngFor="let quiz of quizzes | slice: (currentPage-1) * pageSize : currentPage * pageSize; let i = index">
-                <div *ngIf="quiz">
-                <span>{{ quiz.name }}</span>
-<!--                <span>{{ quiz.created }}</span>-->
-                <span>{{ quiz.categoryId }}</span>
-                <button (click)="deleteQuiz(quiz)">Usuń</button>
-                <button (click)="editQuiz(quiz)">Edytuj</button>
+                    <button mat-stroked-button (click)="shareQuiz(quiz)" matTooltip="Share the quiz">
+                      <i class="bi bi-share"></i>
+                      Share
+                    </button>
+                  </div>
                 </div>
-              </li>
-            </ul>
-            <ngb-pagination  *ngIf="quizzes.length>0"
+                </div>
+              </div>
+              <div class="col-12 justify-content-center m-2">
+            <ngb-pagination
+              *ngIf="quizzes.length>pageSize"
               [(page)]="currentPage"
               [pageSize]="pageSize"
               [collectionSize]="quizzes.length"
               [maxSize]="5"
               [rotate]="true"
             ></ngb-pagination>
+              </div>
           </div>
           </div>
           <button mat-flat-button color="warn" class="nav-link" (click)="authService.SignOut()"> Log out </button>

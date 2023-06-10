@@ -54,6 +54,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'edit/:id',
+    component: QuizCreatorComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'category/:id',
     component: CategoryComponent
   },
