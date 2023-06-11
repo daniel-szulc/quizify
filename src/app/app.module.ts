@@ -40,6 +40,7 @@ import {ClipboardService} from "./shared/clipboard.service";
 import {ConfirmDialogComponent} from "./components/user-profile/ConfirmDialog.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {AvatarDialogComponent} from "./components/user-profile/AvatarDialog.component";
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {AvatarDialogComponent} from "./components/user-profile/AvatarDialog.comp
          QuizCreatorComponent,
          CreateSuccessComponent,
          CategoryComponent,
-      AvatarDialogComponent
+      AvatarDialogComponent,
+      FooterComponent
     ],
   imports: [
     BrowserModule,
