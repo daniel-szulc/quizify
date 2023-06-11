@@ -1,6 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-environments.ts
+# environments
+src/environments/environment.prod.ts
+src/environments/environment.dev.ts
 
 # Compiled output
 /dist

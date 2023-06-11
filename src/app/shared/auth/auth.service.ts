@@ -41,7 +41,7 @@ export class AuthService {
               else
               {
                 usersService.generateUsername(user.email || "quizifyer").pipe(takeUntil(this.destroy$)).subscribe(username => {
-                  this.saveUser(username, user);
+                  this.saveUser({username: username}, user);
                 });
               }
             }
@@ -139,8 +139,13 @@ export class AuthService {
 
   CreateUser(user: User | null, email: string, username: string){
     if(user) {
-      this.user = new UserModal(username, email, user.uid, this.getImage(user), [])
+      console.log("CREATE USER")
+      console.log(user)
+      console.log(username)
+      console.log(email)
 
+      this.user = new UserModal(username, email, user.uid, this.getImage(user), [])
+      console.log(this.user)
       const usersService = this.injector.get(UsersService)
       usersService.sendUsersData(this.user);
     }

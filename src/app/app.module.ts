@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CommonModule} from "@angular/common";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {environment} from "../environments/environments";
+import {environment} from "../environments/environment";
 import {AngularFireModule} from "@angular/fire/compat";
 import {HttpClientModule} from "@angular/common/http";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";

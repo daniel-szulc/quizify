@@ -2,6 +2,7 @@ import {AuthService} from "./auth/auth.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Injectable} from "@angular/core";
+import { environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ClipboardService {
   constructor(private snackBar: MatSnackBar) {}
 
   public  getQuizUrl(quizID: string){
-    const baseUrl = window.location.origin;
+    const baseUrl = window.location.origin + environment.baseHref;
     return `${baseUrl}/quiz?id=${quizID}`;
   }
 

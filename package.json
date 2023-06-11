@@ -1,10 +1,11 @@
 {
   "name": "Quizify",
-  "version": "0.0.0",
+  "homepage": "https://daniel-szulc.github.io/quizify/",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --output-path docs --base-href /quizify/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
