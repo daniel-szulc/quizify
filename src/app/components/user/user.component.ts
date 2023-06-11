@@ -1,63 +1,64 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {first, Observable, Subject, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CategoryService} from "../../shared/category.service";
-import {map, takeUntil} from "rxjs/operators";
 import {QuizService} from "../../shared/quiz.service";
+import {map, takeUntil} from "rxjs/operators";
 import {QuizModal} from "../../shared/modal/quiz";
-import {CategoryModal} from "../../shared/modal/category";
-import {IconName as BootstrapIconName, IconName} from "ngx-bootstrap-icons/lib/types/icon-names.type";
-import {findIconDefinition} from "@fortawesome/fontawesome-svg-core";
+import {UserModal} from "../../shared/modal/user";
 import {ClipboardService} from "../../shared/clipboard.service";
 import {UsersService} from "../../shared/users.service";
+import {CategoryService} from "../../shared/category.service";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.sass']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.sass']
 })
-export class CategoryComponent implements OnInit, OnDestroy {
+export class UserComponent implements OnInit, OnDestroy {
   quizzes: (QuizModal | null)[] = [];
   public pageSize: number = 10;
   public quizzesIDs: string[] = [];
   private currentIndex: number = 0;
-  public category: CategoryModal | null = null;
-  public icon: BootstrapIconName | undefined;
+  public user: UserModal | undefined = undefined;
   private unsubscribe$ = new Subject<void>();
   currentPage: number = 1;
-  public categoryFound: boolean = true;
+  public userFound: boolean = true;
   public quizzesFound: boolean = true;
   constructor(
     private route: ActivatedRoute,
     public router: Router,
-    private categoryService: CategoryService,
-    private quizService: QuizService,
     private userService: UsersService,
+    private quizService: QuizService,
+    private categoryService: CategoryService,
     private clipboardService: ClipboardService
   ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(
       map(params => params['id']),
-      switchMap(id => this.categoryService.getCategory(id))
-    ).pipe(first()).subscribe(category => {
-      if (!category) {
-        this.categoryFound = false;
+      switchMap(username => this.userService.getUserID(username))
+    ).pipe(first()).subscribe(userID => {
+      if (!userID) {
+        this.userFound = false;
         return;
       }
-      this.category = category;
-      this.icon = category.icon as BootstrapIconName
-      if(!category.quizzes){
+      this.userService.getUserData(userID).pipe(first()).subscribe(user => {
+        if (!user) {
+          this.userFound = false;
+          return;
+        }
+      this.user = user as UserModal;
+      if(!this.user.quizzes){
         this.quizzesFound = false;
         return;
       }
-      this.quizzesIDs = category.quizzes;
+      this.quizzesIDs = this.user.quizzes;
       if (this.quizzesIDs.length === 0) {
         this.quizzesFound = false;
       } else {
         this.loadMoreQuizzes();
       }
-    });
+    })})
   }
 
   loadMoreQuizzes(): void {
@@ -70,15 +71,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.quizzes = [...this.quizzes, ...quizzes];
 
         if(this.quizzes)
-        this.quizzes.forEach(quiz => {
-          if(quiz)
-          this.userService.getUsername(quiz.authorId)
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(username => {
-              quiz.authorName = username;
-            });
-        });
-
+          this.quizzes.forEach(quiz => {
+            if(quiz)
+              this.categoryService.getCategory(quiz.categoryId)
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(category => {
+                  if(category)
+                  quiz.categoryName = category.name;
+                });
+          });
 
         this.currentIndex += this.pageSize;
       });

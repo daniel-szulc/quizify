@@ -1,5 +1,5 @@
 
-<app-navbar></app-navbar>
+<app-navbar [hidden]="isLoading"></app-navbar>
 <div class="spinner" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
 </div>
@@ -14,5 +14,5 @@
 <app-carousel-category [items]="categories"></app-carousel-category>
   </main>
 </div>
-<app-footer></app-footer>
+<app-footer *ngIf="!isLoading"></app-footer>
 

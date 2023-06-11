@@ -41,6 +41,7 @@ import {ConfirmDialogComponent} from "./components/user-profile/ConfirmDialog.co
 import {MatDialogModule} from "@angular/material/dialog";
 import {AvatarDialogComponent} from "./components/user-profile/AvatarDialog.component";
 import { FooterComponent } from './components/footer/footer.component';
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { FooterComponent } from './components/footer/footer.component';
          CreateSuccessComponent,
          CategoryComponent,
       AvatarDialogComponent,
-      FooterComponent
+      FooterComponent,
+      UserComponent
     ],
   imports: [
     BrowserModule,

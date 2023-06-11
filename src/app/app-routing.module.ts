@@ -11,6 +11,7 @@ import {QuizComponent} from "./components/quiz/quiz.component";
 import {ResultComponent} from "./components/result/result.component";
 import {QuizCreatorComponent} from "./components/quiz-creator/quiz-creator.component";
 import {CategoryComponent} from "./components/category/category.component";
+import {UserComponent} from "./components/user/user.component";
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'category/:id',
     component: CategoryComponent
+  },
+  {
+    path: 'user/:id',
+    component: UserComponent
   },
   { path: '**', redirectTo: '' }
 ];

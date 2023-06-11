@@ -36,6 +36,12 @@ export class UsersService {
     }));
   }
 
+  getUserID(username: string){
+    return this.fireStore.collection('usernames').doc(username).get().pipe(map(res => {
+      // @ts-ignore
+      return (res.exists && res.data()) ? res.data()['uid'] : "";
+    }));
+  }
 
   getUserData(userID: string)
   {
