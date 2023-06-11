@@ -11,7 +11,6 @@ import {QuizService} from "../../shared/quiz.service";
 })
 export class ResultComponent implements OnInit {
 
-  resultAnswers:Array<any>[] = [];
 
   userDetails: any;
   isSubmitted: boolean = false;
@@ -19,6 +18,8 @@ export class ResultComponent implements OnInit {
   constructor(public quizService: QuizService, private router: Router, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    if(this.quizService.questionData.length === 0)
+      this.router.navigate([""]);
     this.quizService.correctAnsCount = 0;
     this.getAnswers();
   }
@@ -34,11 +35,6 @@ export class ResultComponent implements OnInit {
     }
   }
 
-  openSnackbar(message: any) {
-    this._snackBar.open(message, 'close', {
-      duration: 3000
-    });
-  }
 
   filteredResult() {
     if (this.quizService.questionData.length) {
@@ -69,19 +65,10 @@ export class ResultComponent implements OnInit {
       return null;
     }
     return null;
-/*    this.quizService.sendResult(filteredData.userId, filteredData.finalData)
-      .then(() => {
-        this.openSnackbar('You results are submitted!!');
-        this.isSubmitted = false;
-      })
-      .catch(err => {
-        this.openSnackbar(err.message);
-        this.isSubmitted = false;
-      });*/
   }
 
   retry() {
-    this.router.navigate(['/quiz']);
+    this.router.navigate(["quiz", this.quizService.quizId]);
   }
 
 }

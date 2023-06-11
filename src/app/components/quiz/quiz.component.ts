@@ -43,10 +43,9 @@ export class QuizComponent implements OnInit {
     }
     );
 
-
-
     this.quizService.qnProgress = 0;
     this.quizService.seconds = 0;
+    this.quizService.quizId =  this.quizID;
 
   }
 
@@ -62,35 +61,13 @@ export class QuizComponent implements OnInit {
   back(): void {
     this.location.back()
   }
-  // Check prev available
-  public get checkPrev(): Boolean {
-    if (this.quizService.qnProgress - 1 >= 0) {
-      return true;
-    }
-    return false;
-  }
 
-  // Check next available
-  public get checkNext(): Boolean {
-   return false
 
-  }
-
-  // Get Progress Value
   public get getProgressValue() {
     const progressValue = (this.quizService.qnProgress + 1) * (100 / this.quizService.questionData.length);
     return progressValue;
   }
 
-  // Check if the radio is select or not
-  // isRadioChecked(index: number) {
-  //   if (this.quizService.questionData[this.quizService.qnProgress].participantAnswer === index) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // To filter the data
   filterData(id: string, data: any) {
     return {
       id: id,
@@ -133,20 +110,6 @@ export class QuizComponent implements OnInit {
     }, 1000)
   }
 
-  // Submit answer or click next
-/*
-  clickNextBtn(id: any) {
-    if (this.checkNext) {
-      this.quizService.qnProgress++;
-      if (this.quizService.questionData.length == this.quizService.qnProgress) {
-        // @ts-ignore
-        clearInterval(this.quizService.timer);
-        this.router.navigate(['/result']);
-        return;
-      }
-    }
-  }
-*/
 
   selectAnswer(id: any){
     console.log(id);
@@ -160,12 +123,5 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  // Prev question
-  clickPrevBtn() {
-    if (!this.checkPrev) {
-      return;
-    }
-    this.quizService.qnProgress--;
-  }
 
 }

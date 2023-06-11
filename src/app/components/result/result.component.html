@@ -1,61 +1,50 @@
-<!-- Navbar -->
+
 <app-navbar></app-navbar>
-<!-- Result section -->
-<div class="result-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxFlexFill="100%"
+
+<div class="container result-container"
     *ngIf="quizService.questionData">
-    <mat-card fxFlex="90%" class="mat-elevation-z5">
-        <!-- Result -->
-        <div fxLayout="row" fxLayout.xs="column" class="padding">
-            <div fxFlex="50%" fxLayoutAlign="center center">
-                <img src="../../assets/img/trophy.png" alt="" width="300">
+  <div style="padding: 60px"></div>
+    <mat-card class="mat-elevation-z5">
+
+        <div>
+          <div class="iconFrame">
+            <div class="iconWrapper">
+              <i-bs width="50" height="50" name="trophy"></i-bs>
             </div>
-            <div fxFlex="50%" fxLayoutAlign="start center">
+          </div>
+            <div>
                 <div class="result-content">
-                    <mat-card-title>Congratulations <span>!!</span></mat-card-title>
+                    <mat-card-title>Congratulations!</mat-card-title>
                     <div class="inner-content">
                         <p class="score">Your Score: {{quizService.correctAnsCount}} /
                             {{quizService.questionData.length}}</p>
+                        <p class="score">{{quizService.correctAnsCount / quizService.questionData.length * 100}}%</p>
                         <p class="timer">Time Elapsed: {{quizService.displayTimeElapsed()}}</p>
-                        <button mat-raised-button color="primary" class="mr-5" (click)="submit()"
-                            [disabled]="quizService.questionData.length<1 || isSubmitted">
-                            <mat-icon>save</mat-icon> Submit
-                        </button>
-                        <button mat-raised-button color="accent" (click)="retry()">
-                            <mat-icon>replay</mat-icon> Retry
+                        <button mat-flat-button color="accent" (click)="retry()">
+                            <mat-icon>replay</mat-icon> Try Again
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Divider -->
-        <mat-divider [inset]="true"></mat-divider>
-        <!-- Result questions detail -->
+
+
         <div class="accordion">
             <p class="title">Correct Answers:</p>
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let question of quizService.questionData let i=index">
                     <mat-expansion-panel-header>
-                        <mat-panel-title fxLayoutAlign="flex-start center"
+                        <mat-panel-title
                             [ngClass]="question.answer === quizService.answers[i] ? 'primary':'accent'">
                             {{i+1}}. {{question.question}}
                         </mat-panel-title>
-                        <!-- Chcek or Close icon -->
-                        <mat-panel-description fxLayoutAlign="flex-end center">
-                            <!-- <mat-chip-list> -->
-                            <button mat-icon-button
-                                [color]="question.answer  === quizService.answers[i] ? 'primary':'accent'" selected>
-                                <mat-icon>
-                                    {{question.answer === quizService.answers[i] ? 'sentiment_very_satisfied':'sentiment_very_dissatisfied'}}
-                                </mat-icon>
-                            </button>
-                            <!-- </mat-chip-list> -->
-                        </mat-panel-description>
+
                     </mat-expansion-panel-header>
-                    <!-- Options -->
+
                     <mat-radio-group class="example-radio-group" fxLayout="column">
                         <mat-radio-button class="example-radio-button"
                             *ngFor="let option of question.options let j = index" [value]="i"
-                            [checked]="j===question.answer || j===quizService.answers[i]"
+                            [checked]="j===quizService.answers[i]"
                             [disabled]="true">
                             {{option}} <mat-icon [ngClass]="j  === quizService.answers[i] ? 'green': 'red'"
                                 *ngIf="j===question.answer">

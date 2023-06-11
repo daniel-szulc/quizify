@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  baseHref: '/',
+  baseHref: '',
   firebase: {
     databaseURL: "YOUR_CLOUD_FIRESTORE_DATABASE_URL",
     apiKey: "YOUR_APP_ID",

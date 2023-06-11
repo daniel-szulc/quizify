@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {first, Observable, Subject, switchMap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoryService} from "../../shared/category.service";
@@ -16,7 +16,7 @@ import {UsersService} from "../../shared/users.service";
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.sass']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
   quizzes: (QuizModal | null)[] = [];
   public pageSize: number = 10;
   public quizzesIDs: string[] = [];
@@ -79,7 +79,7 @@ export class CategoryComponent implements OnInit {
             });
         });
 
-        console.log(this.quizzes);
+
         this.currentIndex += this.pageSize;
       });
   }

@@ -40,8 +40,6 @@ export class HomeComponent implements OnInit{
         const iconName = category.icon as IconName;
 
         let iconDefinition = findIconDefinition({prefix, iconName});
-        // @ts-ignore
-        console.log(category.icon as BootstrapIconName)
 
         this.categories.push(
           {

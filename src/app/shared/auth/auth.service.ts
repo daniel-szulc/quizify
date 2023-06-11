@@ -1,4 +1,4 @@
-import {Injectable, Injector, NgZone} from '@angular/core';
+import {Injectable, Injector, NgZone, OnDestroy, OnInit} from '@angular/core';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import {lastValueFrom, Subject} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit, OnDestroy{
   userData: any;
   user: UserModal | undefined;
   private destroy$ = new Subject<void>();
@@ -24,6 +24,7 @@ export class AuthService {
     private injector: Injector,
   ) {
     this.afAuth.authState.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+
       if (user) {
         if(!this.user)
         {
@@ -33,7 +34,7 @@ export class AuthService {
               if(r)
               {
                 usersService.getUserData(user.uid).pipe(takeUntil(this.destroy$)).subscribe(data => {
-              //  usersService.getUsername(user.uid).pipe(takeUntil(this.destroy$)).subscribe(username => {
+                  //  usersService.getUsername(user.uid).pipe(takeUntil(this.destroy$)).subscribe(username => {
 
                   this.saveUser(data, user);
                 })
@@ -54,6 +55,9 @@ export class AuthService {
 
   }
 
+  ngOnInit(){
+    console.log("ON INIT")
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
@@ -161,7 +165,7 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['../'])
+          this.router.navigate([''])
         });
       })
       .catch(() => {
