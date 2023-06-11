@@ -1,8 +1,8 @@
 import {ErrorMessage} from "./error.interface";
 
 export const errorMessages: ErrorMessage = {
-  'auth/user-not-found': 'Incorrect username or password!',
-  'auth/wrong-password': 'Incorrect username or password!',
+  'auth/user-not-found': 'User with given address does not exist!',
+  'auth/wrong-password': 'Incorrect password!',
   'auth/email-already-in-use': 'Address email already in use!',
   'auth/email-already-exists': 'Address email already exists!',
   'auth/internal-error': 'Something went wrong. Please try again!',

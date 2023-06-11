@@ -122,3 +122,40 @@
 
 .quizzes
   margin-block: 10px
+
+.image-container
+  position: relative
+  margin: auto
+  width: min-content
+  .change-avatar-icon
+    position: absolute
+    display: flex
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    height: 100%
+    width: 100%
+    opacity: 0
+    transition: .5s ease
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    i-bs
+      margin: auto
+      color: white
+    img
+      transition: .5s ease
+  &:hover
+    img
+      -webkit-filter:  brightness(0.5)
+      -moz-filter: brightness(0.5)
+      -ms-filter:  brightness(0.5)
+      -o-filter:  brightness(0.5)
+      filter: brightness(0.5)
+      transition: .5s ease
+    .change-avatar-icon
+      opacity: 1
+
+.media
+  text-align: center

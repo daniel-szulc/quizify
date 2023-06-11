@@ -10,7 +10,8 @@ import {CategoryService} from "../../shared/category.service";
 import {ClipboardService} from "../../shared/clipboard.service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "./ConfirmDialogComponent";
+import {ConfirmDialogComponent} from "./ConfirmDialog.component";
+import {AvatarDialogComponent} from "./AvatarDialog.component";
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -31,6 +32,7 @@ export class UserProfileComponent implements OnInit {
   currentPage = 1;
   pageSize = 5;
   isLoading: Boolean = false;
+  public showChangeAvatar: boolean = false;
   ngOnInit(): void {
     this.loadQuizzes();
   }
@@ -72,13 +74,6 @@ export class UserProfileComponent implements OnInit {
           );
       }
     )
-    // this.quizService.getQuizzes(this.authService.userData.quizzes).pipe(take(1))
-    //   .subscribe(
-    //   (quizzes: (QuizModal | null)[]) => {
-    //     this.quizzes = quizzes;
-    //   }
-    // );
-
   }
 
   deleteQuiz(quiz: QuizModal): void {
@@ -116,4 +111,18 @@ export class UserProfileComponent implements OnInit {
   getImage() {
     return this.authService.getImage();
   }
+
+  async changeAvatar() {
+    const dialogRef = this.dialog.open(AvatarDialogComponent, {
+
+    });
+
+    const result = await dialogRef.afterClosed().toPromise();
+    if(result) {
+      this.authService.UpdateUserImage(result);
+    }
+  }
+
+
+
 }

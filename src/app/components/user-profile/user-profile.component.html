@@ -14,13 +14,18 @@
         <div class="row" *ngIf="authService.userData as user">
           <div class="col-md-12">
             <div class="media">
+              <div class="image-container align-self-start">
               <img
                 class="align-self-start img-thumbnail rounded-circle"
                 src="{{
-                  getImage() ? getImage() : '/assets/avatars/avatar_00.jpg'
-                }}"
+    getImage() ? getImage() : '/assets/avatars/avatar_00.jpg'
+  }}"
                 alt="{{ user.displayName }}"
               />
+              <a  class="change-avatar-icon" (click)="changeAvatar()">
+                <i-bs width="30" height="30" name="pencil-square"></i-bs>
+              </a>
+              </div>
               <div class="media-body">
                 <h2>
                   <strong>{{

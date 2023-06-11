@@ -228,4 +228,15 @@ export class AuthService implements OnInit, OnDestroy{
       this.router.navigate(['/']);
     });
   }
+
+  UpdateUserImage(imageUrl: string) {
+    const usersService = this.injector.get(UsersService);
+    usersService.updateUserImage(this.getUserID(), imageUrl).then(() => {
+      if(this.userData) {
+        this.userData.customImage = imageUrl;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+      }
+    });
+  }
+
 }

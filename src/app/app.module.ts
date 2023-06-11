@@ -37,8 +37,9 @@ import {FormsModule} from "@angular/forms";
 import { CreateSuccessComponent } from './components/quiz-creator/create-success/create-success.component';
 import { CategoryComponent } from './components/category/category.component';
 import {ClipboardService} from "./shared/clipboard.service";
-import {ConfirmDialogComponent} from "./components/user-profile/ConfirmDialogComponent";
+import {ConfirmDialogComponent} from "./components/user-profile/ConfirmDialog.component";
 import {MatDialogModule} from "@angular/material/dialog";
+import {AvatarDialogComponent} from "./components/user-profile/AvatarDialog.component";
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import {MatDialogModule} from "@angular/material/dialog";
          QuizCreatorComponent,
          CreateSuccessComponent,
          CategoryComponent,
-
+      AvatarDialogComponent
     ],
   imports: [
     BrowserModule,

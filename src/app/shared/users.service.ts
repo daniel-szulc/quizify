@@ -128,4 +128,11 @@ export class UsersService {
   }
 
 
+
+  updateUserImage(userId: string, imageUrl: string) {
+    return this.fireStore.collection('users').doc(userId).update({
+      customImage: imageUrl
+    });
+  }
+
 }
