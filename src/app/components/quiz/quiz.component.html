@@ -7,7 +7,7 @@
   </div>
     <mat-card *ngIf="isQuizNotFound" >
         <a class="logo-wrapper" href="/">
-          <img class="logo"  height="70"  src="/assets/quizify_logo.svg" alt="Logo Quizify" />
+          <img class="logo"  height="70"  src="assets/quizify_logo.svg" alt="Logo Quizify" />
         </a>
 
         <mat-card-title>{{"Quiz not found"}}</mat-card-title>
@@ -17,7 +17,7 @@
           <div>
             <p>The quiz you're looking for doesn't exist.</p>
           </div>
-          <button mat-flat-button class="submit-btn" (click)="this.router.navigate(['/'])" color="primary">Back to Home</button>
+          <button mat-flat-button class="submit-btn" (click)="this.router.navigate([''])" color="primary">Back to Home</button>
         </mat-card-content>
     </mat-card>
     <mat-card  [style]="valueAsStyle" *ngIf="quizService.questionData && !isLoading && !isQuizNotFound">

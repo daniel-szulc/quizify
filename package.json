@@ -1,7 +1,7 @@
 {
   "name": "Quizify",
   "homepage": "https://daniel-szulc.github.io/quizify/",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
